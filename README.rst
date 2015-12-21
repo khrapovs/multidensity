@@ -1,6 +1,10 @@
 .. image:: https://travis-ci.org/khrapovs/multidensity.svg?branch=master
     :target: https://travis-ci.org/khrapovs/multidensity
 
+.. image:: https://readthedocs.org/projects/multidensity/badge/?version=latest
+	:target: http://multidensity.readthedocs.org/en/latest/?badge=latest
+	:alt: Documentation Status
+
 Multivariate Densities
 ======================
 
