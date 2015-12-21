@@ -60,6 +60,28 @@ class MultiDensityTestCase(ut.TestCase):
         self.assertEqual(pdf.ndim, 1)
         self.assertEqual(pdf.shape, (size[0],))
 
+    def test_loglikelihood(self):
+        """Test log-likelihood."""
+
+        skst = MultiDensity()
+        logl = skst.loglikelihood()
+
+        self.assertIsInstance(logl, float)
+
+        size = (10, 2)
+        arg = np.random.normal(size=size)
+        logl = skst.loglikelihood(arg)
+
+        self.assertIsInstance(logl, float)
+
+        eta, lam = [10, 15, 10], [.5, 1.5, 2]
+        theta = np.concatenate((eta, lam))
+        size = (10, len(eta))
+        arg = np.random.normal(size=size)
+        logl = skst.loglikelihood(arg, theta=theta)
+
+        self.assertIsInstance(logl, float)
+
 
 if __name__ == '__main__':
     ut.main()

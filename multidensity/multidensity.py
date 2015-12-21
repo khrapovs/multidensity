@@ -107,7 +107,7 @@ class MultiDensity(object):
             * (1 + kappa ** 2 / (self.eta - 2)) ** (- (self.eta + 1) / 2)
         return np.prod(marginals, axis=1)
 
-    def loglikelihood(self, arg, theta=None):
+    def loglikelihood(self, arg=[0, 0], theta=None):
         """Log-likelihood function.
 
         Parameters
