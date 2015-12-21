@@ -85,7 +85,9 @@ class MultiDensity(object):
         ----------
         arg : array_like
             Grid of point to evaluate PDF at.
+
             (k,) - one observation, k dimensions
+
             (T, k) - T observations, k dimensions
 
         Returns
