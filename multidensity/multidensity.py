@@ -24,13 +24,14 @@ import matplotlib.pylab as plt
 import seaborn as sns
 
 from scipy.special import gamma
+from scipy.optimize import minimize
 
 __all__ = ['MultiDensity']
 
 
 class MultiDensity(object):
 
-    def __init__(self, eta=[10., 10], lam=[.5, 1.5]):
+    def __init__(self, eta=[10., 10], lam=[.5, 1.5], data=[0, 0]):
         """Initialize the class.
 
         Parameters
@@ -43,9 +44,9 @@ class MultiDensity(object):
         """
         self.eta = np.array(eta)
         self.lam = np.array(lam)
+        self.data = np.atleast_2d(data)
 
-    @classmethod
-    def from_theta(cls, theta=[10., 10, .5, 1.5]):
+    def from_theta(self, theta=[10., 10, .5, 1.5]):
         """Initialize the class from theta.
 
         Parameters
@@ -55,7 +56,8 @@ class MultiDensity(object):
 
         """
         params = len(theta) // 2
-        return cls(eta=theta[:params], lam=theta[params:])
+        self.eta = np.array(theta[:params])
+        self.lam = np.array(theta[params:])
 
     def __const_a(self):
         """Compute a constant.
@@ -76,14 +78,14 @@ class MultiDensity(object):
         b : float
 
         """
-        return self.lam ** 2 + 1 / self.lam ** 2 - 1 - self.__const_a() ** 2
+        return self.lam ** 2 + self.lam ** (-2) - 1 - self.__const_a() ** 2
 
-    def pdf(self, arg=[0, 0], theta=None):
+    def marginals(self, data=None):
         """Probability density function (PDF).
 
         Parameters
         ----------
-        arg : array_like
+        data : array_like
             Grid of point to evaluate PDF at.
 
             (k,) - one observation, k dimensions
@@ -96,24 +98,46 @@ class MultiDensity(object):
             PDF values
 
         """
-        if theta is not None:
-            self = self.from_theta(theta)
-        arg = np.atleast_2d(arg)
-        ind = np.sign(arg + self.__const_a() / self.__const_b())
-        kappa = (self.__const_b() * arg + self.__const_a()) * self.lam ** ind
-        marginals = 2 / (np.pi * (self.eta - 1)) ** .5 \
+        if data is None:
+            raise ValueError('No data given!')
+        self.data = np.atleast_2d(data)
+        ind = - np.sign(self.data + self.__const_a() / self.__const_b())
+        kappa = (self.__const_b() * self.data + self.__const_a()) \
+            * self.lam ** ind
+        return 2 / (np.pi * (self.eta - 1)) ** .5 \
             * self.__const_b() / (self.lam + 1. / self.lam) \
             * gamma((self.eta + 1) / 2) / gamma(self.eta / 2) \
             * (1 + kappa ** 2 / (self.eta - 2)) ** (- (self.eta + 1) / 2)
-        return np.prod(marginals, axis=1)
 
-    def loglikelihood(self, theta=[10., 10, .5, 1.5], arg=[0, 0]):
+    def pdf(self, data=None):
+        """Probability density function (PDF).
+
+        Parameters
+        ----------
+        data : array_like
+            Grid of point to evaluate PDF at.
+
+            (k,) - one observation, k dimensions
+
+            (T, k) - T observations, k dimensions
+
+        Returns
+        -------
+        array
+            PDF values
+
+        """
+        if data is None:
+            raise ValueError('No data given!')
+        return np.prod(self.marginals(data), axis=1)
+
+    def loglikelihood(self, theta=[10., 10, .5, 1.5]):
         """Log-likelihood function.
 
         Parameters
         ----------
-        arg : array
-            Grid of point to evaluate PDF at
+        theta : array_like
+            Density parameters
 
         Returns
         -------
@@ -121,5 +145,38 @@ class MultiDensity(object):
             Log-likelihood values. Same shape as the input.
 
         """
-        self = self.from_theta(theta)
-        return -np.log(self.pdf(arg)).sum()
+        if theta is None:
+            raise ValueError('No parameter given!')
+        self.from_theta(theta)
+        return -np.log(self.pdf(self.data)).mean()
+
+    @staticmethod
+    def fit_mle(data=None, theta_start=None):
+        """Fit parameters with MLE.
+
+        Parameters
+        ----------
+        theta : array_like
+            Density parameters
+        arg : array
+            Grid of point to evaluate log-likelihood at
+
+        Returns
+        -------
+        array
+            Log-likelihood values. Same shape as the input.
+
+        """
+        if data.ndim != 2:
+            raise ValueError('Wrong data dimensions!')
+        ndim = data.shape[1]
+        if theta_start is None:
+            eta = np.ones(ndim) * 10
+            lam = np.ones(ndim)
+            theta_start = np.concatenate((eta, lam))
+        bound_eta = np.ones(ndim) * 2
+        bound_lam = np.zeros(ndim)
+        bounds = zip(np.concatenate((bound_eta, bound_lam)), 2 * ndim * [None])
+        skst = MultiDensity(data=data)
+        return minimize(skst.loglikelihood, theta_start, method='L-BFGS-B',
+                        bounds=list(bounds))
