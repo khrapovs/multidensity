@@ -29,14 +29,15 @@ def estimate_bivariate_mle():
 
     fig, axes = plt.subplots(nrows=size[1], ncols=1)
     for innov, ax in zip(data.T, axes):
-        sns.kdeplot(innov, ax=ax)
+        sns.kdeplot(innov, ax=ax, label='data')
 
     lines = [ax.get_lines()[0].get_xdata() for ax in axes]
     lines = np.vstack(lines).T
     marginals = mdens.marginals(lines)
 
     for line, margin, ax in zip(lines.T, marginals.T, axes):
-        ax.plot(line, margin)
+        ax.plot(line, margin, label='fitted')
+        ax.legend()
 
     plt.show()
 
