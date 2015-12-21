@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/khrapovs/multidensity.svg?branch=master
+    :target: https://travis-ci.org/khrapovs/multidensity
+
 Multivariate Densities
 ======================
 
