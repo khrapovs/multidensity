@@ -35,6 +35,31 @@ class MultiDensityTestCase(ut.TestCase):
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
 
+    def test_pdf(self):
+        """Test pdf."""
+
+        skst = MultiDensity()
+        pdf = skst.pdf()
+
+        self.assertEqual(pdf.ndim, 1)
+        self.assertEqual(pdf.shape, (1,))
+
+        size = (10, 2)
+        arg = np.random.normal(size=size)
+        pdf = skst.pdf(arg)
+
+        self.assertEqual(pdf.ndim, 1)
+        self.assertEqual(pdf.shape, (size[0],))
+
+        eta, lam = [10, 15, 10], [.5, 1.5, 2]
+        theta = np.concatenate((eta, lam))
+        size = (10, len(eta))
+        arg = np.random.normal(size=size)
+        pdf = skst.pdf(arg, theta=theta)
+
+        self.assertEqual(pdf.ndim, 1)
+        self.assertEqual(pdf.shape, (size[0],))
+
 
 if __name__ == '__main__':
     ut.main()
