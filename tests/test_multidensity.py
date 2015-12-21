@@ -30,6 +30,11 @@ class MultiDensityTestCase(ut.TestCase):
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
 
+        skst = MultiDensity.from_theta(np.concatenate((eta, lam)))
+
+        npt.assert_array_equal(skst.eta, np.array(eta))
+        npt.assert_array_equal(skst.lam, np.array(lam))
+
 
 if __name__ == '__main__':
     ut.main()
