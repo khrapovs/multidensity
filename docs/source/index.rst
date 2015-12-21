@@ -12,4 +12,4 @@ Class documentation
 -------------------
 
 .. autoclass:: multidensity.multidensity.MultiDensity
-	:members: pdf
+	:members: marginals, pdf, loglikelihood, fit_mle

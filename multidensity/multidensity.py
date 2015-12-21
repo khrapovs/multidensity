@@ -31,6 +31,32 @@ __all__ = ['MultiDensity']
 
 class MultiDensity(object):
 
+    """Multidimensional density.
+
+    Attributes
+    ----------
+    eta : array_like
+        Degrees of freedom. :math:`2 < \eta < \infty`
+    lam : array_like
+        Asymmetry. :math:`0 < \lambda < \infty`
+    data : array_like
+        Data grid
+
+    Methods
+    -------
+    from_theta
+        Initialize individual parameters from theta
+    marginals
+        Marginal drobability density functions
+    pdf
+        Probability density function
+    loglikelihood
+        Log-likelihood function
+    fit_mle
+        Fit parameters with MLE
+
+    """
+
     def __init__(self, eta=[10., 10], lam=[.5, 1.5], data=[0, 0]):
         """Initialize the class.
 
@@ -39,7 +65,9 @@ class MultiDensity(object):
         eta : array_like
             Degrees of freedom. :math:`2 < \eta < \infty`
         lam : array_like
-            Asymmetry. :math:`0 < \lambda < 1`
+            Asymmetry. :math:`0 < \lambda < \infty`
+        data : array_like
+            Data grid
 
         """
         self.eta = np.array(eta)
@@ -47,7 +75,7 @@ class MultiDensity(object):
         self.data = np.atleast_2d(data)
 
     def from_theta(self, theta=[10., 10, .5, 1.5]):
-        """Initialize the class from theta.
+        """Initialize individual parameters from theta.
 
         Parameters
         ----------
@@ -64,7 +92,7 @@ class MultiDensity(object):
 
         Returns
         -------
-        a : float
+        float
 
         """
         return gamma((self.eta - 1) / 2) / gamma(self.eta / 2) \
@@ -75,13 +103,13 @@ class MultiDensity(object):
 
         Returns
         -------
-        b : float
+        float
 
         """
         return self.lam ** 2 + self.lam ** (-2) - 1 - self.__const_a() ** 2
 
     def marginals(self, data=None):
-        """Probability density function (PDF).
+        """Marginal drobability density functions.
 
         Parameters
         ----------
@@ -94,8 +122,8 @@ class MultiDensity(object):
 
         Returns
         -------
-        array
-            PDF values
+        (T, k) array
+            marginal pdf values
 
         """
         if data is None:
@@ -123,7 +151,7 @@ class MultiDensity(object):
 
         Returns
         -------
-        array
+        (T, ) array
             PDF values
 
         """
@@ -141,7 +169,7 @@ class MultiDensity(object):
 
         Returns
         -------
-        array
+        float
             Log-likelihood values. Same shape as the input.
 
         """
