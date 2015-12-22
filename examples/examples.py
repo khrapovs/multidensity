@@ -9,11 +9,11 @@ import numpy as np
 import matplotlib.pylab as plt
 import seaborn as sns
 
-from multidensity import SkStJR
+from multidensity import SkStJR, SkStBL
 from skewstudent import SkewStudent
 
 
-def estimate_bivariate_mle():
+def estimate_bivariate_mle_bl():
     ndim = 2
     size = (10000, ndim)
     data = np.random.normal(size=size)
@@ -21,11 +21,24 @@ def estimate_bivariate_mle():
     skst = SkewStudent(eta=eta, lam=lam)
     data = skst.rvs(size=size)
 
-    out = SkStJR.fit_mle(data=data)
+    model = SkStBL(data=data)
+    out = model.fit_mle()
     print(out)
 
-    mdens = SkStJR()
-    mdens.from_theta(out.x)
+
+def estimate_bivariate_mle_jr():
+    ndim = 2
+    size = (10000, ndim)
+    data = np.random.normal(size=size)
+    eta, lam = 4, -.9
+    skst = SkewStudent(eta=eta, lam=lam)
+    data = skst.rvs(size=size)
+
+    model = SkStJR(data=data)
+    out = model.fit_mle()
+    print(out)
+
+    model.from_theta(out.x)
 
     fig, axes = plt.subplots(nrows=size[1], ncols=1)
     for innov, ax in zip(data.T, axes):
@@ -33,7 +46,7 @@ def estimate_bivariate_mle():
 
     lines = [ax.get_lines()[0].get_xdata() for ax in axes]
     lines = np.vstack(lines).T
-    marginals = mdens.marginals(lines)
+    marginals = model.marginals(lines)
 
     for line, margin, ax in zip(lines.T, marginals.T, axes):
         ax.plot(line, margin, label='fitted')
@@ -41,9 +54,8 @@ def estimate_bivariate_mle():
 
     plt.show()
 
-    mdens = SkStJR(data=data)
-
 
 if __name__ == '__main__':
 
-    estimate_bivariate_mle()
+    estimate_bivariate_mle_bl()
+    estimate_bivariate_mle_jr()

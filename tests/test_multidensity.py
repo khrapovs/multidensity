@@ -36,6 +36,12 @@ class SkStJRTestCase(ut.TestCase):
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
 
+        size = (10, len(eta))
+        data = np.random.normal(size=size)
+        skst = SkStJR(data=data)
+
+        npt.assert_array_equal(skst.data, data)
+
     def test_marginals(self):
         """Test marginals."""
 
@@ -89,37 +95,30 @@ class SkStBLTestCase(ut.TestCase):
         self.assertIsInstance(skst.eta, np.ndarray)
         self.assertIsInstance(skst.lam, np.ndarray)
 
-        eta, lam = [10, 15], [.5, 1.5]
+        eta, lam = 10, [.5, 1.5]
         skst = SkStBL(eta=eta, lam=lam)
 
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
 
-        eta, lam = [15, 10], [1.5, .5]
-        skst.from_theta(np.concatenate((eta, lam)))
+        eta, lam = 15, [1.5, .5]
+        skst.from_theta(np.concatenate((np.atleast_1d(eta), lam)))
 
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
 
-    def test_marginals(self):
-        """Test marginals."""
-
-        eta, lam = [10, 15, 10], [.5, 1.5, 2]
-        skst = SkStBL(eta=eta, lam=lam)
-        size = (10, len(eta))
+        size = (10, len(lam))
         data = np.random.normal(size=size)
-        marginals = skst.marginals(data)
+        skst = SkStBL(data=data)
 
-        self.assertEqual(marginals.ndim, 2)
-        self.assertEqual(marginals.shape, size)
-        self.assertGreater(marginals.all(), 0)
+        npt.assert_array_equal(skst.data, data)
 
     def test_pdf(self):
         """Test pdf."""
 
-        eta, lam = [10, 15, 10], [.5, 1.5, 2]
+        eta, lam = 10, [.5, 1.5, 2]
         skst = SkStBL(eta=eta, lam=lam)
-        size = (10, len(eta))
+        size = (10, len(lam))
         data = np.random.normal(size=size)
         pdf = skst.pdf(data)
 
@@ -129,9 +128,9 @@ class SkStBLTestCase(ut.TestCase):
     def test_loglikelihood(self):
         """Test log-likelihood."""
 
-        eta, lam = [10, 15, 10], [.5, 1.5, 2]
-        theta = np.concatenate((eta, lam))
-        size = (10, len(eta))
+        eta, lam = 10, [.5, 1.5, 2]
+        theta = np.concatenate((np.atleast_1d(eta), lam))
+        size = (10, len(lam))
         data = np.random.normal(size=size)
         skst = SkStBL(eta=eta, lam=lam, data=data)
         logl1 = skst.loglikelihood(theta)

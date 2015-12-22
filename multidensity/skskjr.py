@@ -20,11 +20,8 @@ Examples
 from __future__ import print_function, division
 
 import numpy as np
-import matplotlib.pylab as plt
-import seaborn as sns
 
 from scipy.special import gamma
-from scipy.optimize import minimize
 
 from .multidensity import MultiDensity
 
@@ -73,3 +70,53 @@ class SkStJR(MultiDensity):
 
         """
         super(SkStJR, self).__init__(eta=eta, lam=lam, data=data)
+
+    def from_theta(self, theta=[10., 10, .5, 1.5]):
+        """Initialize individual parameters from theta.
+
+        Parameters
+        ----------
+        theta : array_like
+            Density parameters
+
+        """
+        params = len(theta) // 2
+        self.eta = np.array(theta[:params])
+        self.lam = np.array(theta[params:])
+
+    def theta_start(self, ndim=2):
+        """Initialize parameter for optimization.
+
+        """
+        eta = np.ones(ndim) * 10
+        lam = np.ones(ndim)
+        return np.concatenate((eta, lam))
+
+    def marginals(self, data=None):
+        """Marginal drobability density functions.
+
+        Parameters
+        ----------
+        data : array_like
+            Grid of point to evaluate PDF at.
+
+            (k,) - one observation, k dimensions
+
+            (T, k) - T observations, k dimensions
+
+        Returns
+        -------
+        (T, k) array
+            marginal pdf values
+
+        """
+        if data is None:
+            raise ValueError('No data given!')
+        self.data = np.atleast_2d(data)
+        ind = - np.sign(self.data + self.const_a() / self.const_b())
+        kappa = (self.const_b() * self.data + self.const_a()) \
+            * self.lam ** ind
+        return 2 / (np.pi * (self.eta - 2)) ** .5 \
+            * self.const_b() / (self.lam + 1. / self.lam) \
+            * gamma((self.eta + 1) / 2) / gamma(self.eta / 2) \
+            * (1 + kappa ** 2 / (self.eta - 2)) ** (- (self.eta + 1) / 2)
