@@ -47,12 +47,8 @@ class SkStJR(MultiDensity):
         Initialize individual parameters from theta
     marginals
         Marginal drobability density functions
-    pdf
-        Probability density function
-    loglikelihood
-        Log-likelihood function
-    fit_mle
-        Fit parameters with MLE
+    theta_start
+        Initialize parameter for optimization
 
     """
 
@@ -86,6 +82,16 @@ class SkStJR(MultiDensity):
 
     def theta_start(self, ndim=2):
         """Initialize parameter for optimization.
+
+        Parameters
+        ----------
+        ndim : int
+            Number of dimensions
+
+        Returns
+        -------
+        array
+            Parameters in one vector
 
         """
         eta = np.ones(ndim) * 10

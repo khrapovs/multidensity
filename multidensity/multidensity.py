@@ -42,10 +42,6 @@ class MultiDensity(object):
 
     Methods
     -------
-    from_theta
-        Initialize individual parameters from theta
-    marginals
-        Marginal drobability density functions
     pdf
         Probability density function
     loglikelihood

@@ -15,7 +15,7 @@ Class documentation
 	:members: pdf, loglikelihood, fit_mle
 
 .. autoclass:: multidensity.skstjr.SkStJR
-	:members: marginals, theta_start
+	:members:
 
 .. autoclass:: multidensity.skstbl.SkStBL
-	:members: theta_start
+	:members:
