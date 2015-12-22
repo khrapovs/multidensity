@@ -15,7 +15,7 @@ from skewstudent import SkewStudent
 
 def estimate_bivariate_mle():
     ndim = 2
-    size = (1000, ndim)
+    size = (10000, ndim)
     data = np.random.normal(size=size)
     eta, lam = 4, -.9
     skst = SkewStudent(eta=eta, lam=lam)
@@ -40,6 +40,8 @@ def estimate_bivariate_mle():
         ax.legend()
 
     plt.show()
+
+    mdens = MultiDensity(data=data)
 
 
 if __name__ == '__main__':

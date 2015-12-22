@@ -132,7 +132,7 @@ class MultiDensity(object):
         ind = - np.sign(self.data + self.__const_a() / self.__const_b())
         kappa = (self.__const_b() * self.data + self.__const_a()) \
             * self.lam ** ind
-        return 2 / (np.pi * (self.eta - 1)) ** .5 \
+        return 2 / (np.pi * (self.eta - 2)) ** .5 \
             * self.__const_b() / (self.lam + 1. / self.lam) \
             * gamma((self.eta + 1) / 2) / gamma(self.eta / 2) \
             * (1 + kappa ** 2 / (self.eta - 2)) ** (- (self.eta + 1) / 2)
@@ -206,5 +206,5 @@ class MultiDensity(object):
         bound_lam = np.zeros(ndim)
         bounds = zip(np.concatenate((bound_eta, bound_lam)), 2 * ndim * [None])
         skst = MultiDensity(data=data)
-        return minimize(skst.loglikelihood, theta_start, method='L-BFGS-B',
+        return minimize(skst.loglikelihood, theta_start, method='Nelder-Mead',
                         bounds=list(bounds))
