@@ -9,23 +9,23 @@ import unittest as ut
 import numpy as np
 import numpy.testing as npt
 
-from multidensity import MultiDensity
+from multidensity import SkStJR
 
 
-class MultiDensityTestCase(ut.TestCase):
+class SkStJRTestCase(ut.TestCase):
 
-    """Test MultiDensity distribution class."""
+    """Test SkStJR distribution class."""
 
     def test_init(self):
         """Test __init__."""
 
-        skst = MultiDensity()
+        skst = SkStJR()
 
         self.assertIsInstance(skst.eta, np.ndarray)
         self.assertIsInstance(skst.lam, np.ndarray)
 
         eta, lam = [10, 15], [.5, 1.5]
-        skst = MultiDensity(eta=eta, lam=lam)
+        skst = SkStJR(eta=eta, lam=lam)
 
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
@@ -40,7 +40,7 @@ class MultiDensityTestCase(ut.TestCase):
         """Test marginals."""
 
         eta, lam = [10, 15, 10], [.5, 1.5, 2]
-        skst = MultiDensity(eta=eta, lam=lam)
+        skst = SkStJR(eta=eta, lam=lam)
         size = (10, len(eta))
         data = np.random.normal(size=size)
         marginals = skst.marginals(data)
@@ -53,7 +53,7 @@ class MultiDensityTestCase(ut.TestCase):
         """Test pdf."""
 
         eta, lam = [10, 15, 10], [.5, 1.5, 2]
-        skst = MultiDensity(eta=eta, lam=lam)
+        skst = SkStJR(eta=eta, lam=lam)
         size = (10, len(eta))
         data = np.random.normal(size=size)
         pdf = skst.pdf(data)
@@ -68,7 +68,7 @@ class MultiDensityTestCase(ut.TestCase):
         theta = np.concatenate((eta, lam))
         size = (10, len(eta))
         data = np.random.normal(size=size)
-        skst = MultiDensity(eta=eta, lam=lam, data=data)
+        skst = SkStJR(eta=eta, lam=lam, data=data)
         logl1 = skst.loglikelihood(theta)
         logl2 = skst.loglikelihood(theta * 2)
 

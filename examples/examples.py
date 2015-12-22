@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import seaborn as sns
 
-from multidensity import MultiDensity
+from multidensity import SkStJR
 from skewstudent import SkewStudent
 
 
@@ -21,10 +21,10 @@ def estimate_bivariate_mle():
     skst = SkewStudent(eta=eta, lam=lam)
     data = skst.rvs(size=size)
 
-    out = MultiDensity.fit_mle(data=data)
+    out = SkStJR.fit_mle(data=data)
     print(out)
 
-    mdens = MultiDensity()
+    mdens = SkStJR()
     mdens.from_theta(out.x)
 
     fig, axes = plt.subplots(nrows=size[1], ncols=1)
@@ -41,7 +41,7 @@ def estimate_bivariate_mle():
 
     plt.show()
 
-    mdens = MultiDensity(data=data)
+    mdens = SkStJR(data=data)
 
 
 if __name__ == '__main__':
