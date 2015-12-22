@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Skewed Student Distribution (Jondeau & Rockinger)
-==============================================================
+Multivariate Skewed Student Distribution (Bauwens & Laurent)
+============================================================
 
 Introduction
 ------------
@@ -28,12 +28,12 @@ from scipy.optimize import minimize
 
 from .multidensity import MultiDensity
 
-__all__ = ['SkStJR']
+__all__ = ['SkStBL']
 
 
-class SkStJR(MultiDensity):
+class SkStBL(MultiDensity):
 
-    """Multidimensional density (Jondeau & Rockinger).
+    """Multidimensional density (Bauwens & Laurent).
 
     Attributes
     ----------
@@ -59,7 +59,7 @@ class SkStJR(MultiDensity):
 
     """
 
-    def __init__(self, eta=[10., 10], lam=[.5, 1.5], data=[0, 0]):
+    def __init__(self, eta=10., lam=[.5, 1.5], data=[0, 0]):
         """Initialize the class.
 
         Parameters
@@ -72,4 +72,4 @@ class SkStJR(MultiDensity):
             Data grid
 
         """
-        super(SkStJR, self).__init__(eta=eta, lam=lam, data=data)
+        super(SkStBL, self).__init__(eta=eta, lam=lam, data=data)
