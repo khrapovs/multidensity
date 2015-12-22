@@ -12,4 +12,10 @@ Class documentation
 -------------------
 
 .. autoclass:: multidensity.multidensity.MultiDensity
-	:members: marginals, pdf, loglikelihood, fit_mle
+	:members: pdf, loglikelihood, fit_mle
+
+.. autoclass:: multidensity.skstjr.SkStJR
+	:members: marginals, theta_start
+
+.. autoclass:: multidensity.skstbl.SkStBL
+	:members: theta_start

@@ -1,3 +1,3 @@
 from .multidensity import *
-from .skskjr import *
-from .skskbl import *
+from .skstjr import *
+from .skstbl import *
