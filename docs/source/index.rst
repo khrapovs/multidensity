@@ -19,3 +19,6 @@ Class documentation
 
 .. autoclass:: multidensity.skstbl.SkStBL
 	:members:
+
+.. autoclass:: multidensity.skstdm.SkStDM
+	:members:
