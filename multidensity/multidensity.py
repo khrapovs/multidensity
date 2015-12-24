@@ -20,6 +20,8 @@ Examples
 from __future__ import print_function, division
 
 import numpy as np
+import matplotlib.pylab as plt
+import seaborn as sns
 
 from scipy.special import gamma
 from scipy.optimize import minimize
@@ -152,3 +154,18 @@ class MultiDensity(object):
         bounds = zip(np.concatenate((bound_eta, bound_lam)), 2 * ndim * [None])
         return minimize(self.loglikelihood, theta_start, method='Nelder-Mead',
                         bounds=list(bounds))
+
+    def plot_bidensity(self):
+        """Plot bivariate density.
+
+        """
+        ndots = 100
+        xgrid = np.linspace(-2, 2, ndots)
+        ygrid = np.linspace(-2, 2, ndots)
+        xgrid, ygrid = np.meshgrid(xgrid, ygrid)
+        data = np.vstack((xgrid.flatten(), ygrid.flatten())).T
+        zvalues = self.pdf(data).reshape((ndots, ndots))
+        plt.contour(xgrid, ygrid, zvalues)
+        plt.axis('square')
+        plt.title(self.get_name())
+        plt.show()

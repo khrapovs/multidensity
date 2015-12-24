@@ -67,6 +67,9 @@ class SkStBL(MultiDensity):
         """
         super(SkStBL, self).__init__(eta=eta, lam=lam, data=data)
 
+    def get_name(self):
+        return 'Bauwens & Laurent'
+
     def from_theta(self, theta=[10., .5, 1.5]):
         """Initialize individual parameters from theta.
 

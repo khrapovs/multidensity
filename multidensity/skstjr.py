@@ -67,6 +67,9 @@ class SkStJR(MultiDensity):
         """
         super(SkStJR, self).__init__(eta=eta, lam=lam, data=data)
 
+    def get_name(self):
+        return 'Jondeau & Rockinger'
+
     def from_theta(self, theta=[10., 10, .5, 1.5]):
         """Initialize individual parameters from theta.
 
