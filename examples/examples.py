@@ -73,7 +73,9 @@ def plot_bidensity():
 def plot_bidensity_skstdm():
 
     eta, lam = 20, [1.5, -2]
-    skst = SkStDM(eta=eta, lam=lam)
+    sigma = [[1, -.5], [-.5, 1]]
+    sigma = None
+    skst = SkStDM(eta=eta, lam=lam, sigma=sigma)
     skst.plot_bidensity()
 
     rvs = skst.rvs(size=int(1e4))
@@ -84,9 +86,39 @@ def plot_bidensity_skstdm():
     plt.show()
 
 
+def compute_cdf():
+    eta, lam = [20, 5], [1.5, .5]
+    skst = SkStJR(eta=eta, lam=lam)
+    print(skst.cdf(np.zeros(2)))
+
+    eta, lam = 20, [1.5, .5]
+    skst = SkStBL(eta=eta, lam=lam)
+    print(skst.cdf(np.zeros(2)))
+
+    eta, lam = 100, [1.5, -2]
+    skst = SkStDM(eta=eta, lam=lam)
+    print(skst.cdf(np.zeros(2)))
+
+
+def compute_univ_cdf():
+    eta, lam = 20, 1.5
+    skst = SkStJR(eta=eta, lam=lam)
+    print(skst.cdf(np.zeros(1)))
+
+    eta, lam = 20, 1.5
+    skst = SkStBL(eta=eta, lam=lam)
+    print(skst.cdf(np.zeros(1)))
+
+    eta, lam = 100, 1.5
+    skst = SkStDM(eta=eta, lam=lam)
+    print(skst.cdf(np.zeros(1)))
+
+
 if __name__ == '__main__':
 
 #    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
 #    plot_bidensity()
-    plot_bidensity_skstdm()
+#    plot_bidensity_skstdm()
+    compute_cdf()
+    compute_univ_cdf()

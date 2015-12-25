@@ -65,9 +65,9 @@ class SkStDM(MultiDensity):
         lam : array_like
             Asymmetry. :math:`0 < \lambda < \infty`
         mu : array_like
-            Constant in the mean
+            Constant in the mean. None for centered density.
         sigma : array_like
-            Covariance matrix
+            Covariance matrix. None for standardized density.
         data : array_like
             Data grid
 

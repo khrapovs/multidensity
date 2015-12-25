@@ -25,6 +25,7 @@ import seaborn as sns
 
 from scipy.special import gamma
 from scipy.optimize import minimize
+from scipy.integrate import nquad
 
 __all__ = ['MultiDensity']
 
@@ -113,6 +114,12 @@ class MultiDensity(object):
             raise ValueError('No data given!')
         return np.prod(self.marginals(data), axis=1)
 
+    def pdf_args(self, *args):
+        """PDF with ordered argument signature, f(x0,...,xn).
+
+        """
+        return self.pdf(data=np.array(args))
+
     def loglikelihood(self, theta=[10., 10, .5, 1.5]):
         """Log-likelihood function.
 
@@ -154,6 +161,24 @@ class MultiDensity(object):
         bounds = zip(np.concatenate((bound_eta, bound_lam)), 2 * ndim * [None])
         return minimize(self.loglikelihood, theta_start, method='Nelder-Mead',
                         bounds=list(bounds))
+
+    def cdf(self, args):
+        """CDF function.
+
+        Parameters
+        ----------
+        args : array_like
+            Argument of CDF
+
+        Returns
+        -------
+        float
+            Value of CDF
+
+        """
+        ndim = len(args)
+        ranges = list(zip(- np.ones(ndim) * np.inf, args))
+        return nquad(self.pdf_args, ranges)
 
     def plot_bidensity(self):
         """Plot bivariate density.

@@ -67,6 +67,21 @@ class SkStJRTestCase(ut.TestCase):
         self.assertEqual(pdf.ndim, 1)
         self.assertEqual(pdf.shape, (size[0], ))
 
+    def test_cdf(self):
+        """Test cdf."""
+
+        eta, lam = 20, 1.5
+        skst = SkStJR(eta=eta, lam=lam)
+        cdf = skst.cdf(np.zeros(1))
+
+        self.assertIsInstance(cdf[0], float)
+
+        eta, lam = [20, 5], [1.5, .5]
+        skst = SkStJR(eta=eta, lam=lam)
+        cdf = skst.cdf(np.zeros(2) - 10)
+
+        self.assertIsInstance(cdf[0], float)
+
     def test_loglikelihood(self):
         """Test log-likelihood."""
 
@@ -125,6 +140,21 @@ class SkStBLTestCase(ut.TestCase):
         self.assertEqual(pdf.ndim, 1)
         self.assertEqual(pdf.shape, (size[0], ))
 
+    def test_cdf(self):
+        """Test cdf."""
+
+        eta, lam = 20, 1.5
+        skst = SkStBL(eta=eta, lam=lam)
+        cdf = skst.cdf(np.zeros(1))
+
+        self.assertIsInstance(cdf[0], float)
+
+        eta, lam = 20, [1.5, .5]
+        skst = SkStBL(eta=eta, lam=lam)
+        cdf = skst.cdf(np.zeros(2) - 10)
+
+        self.assertIsInstance(cdf[0], float)
+
     def test_loglikelihood(self):
         """Test log-likelihood."""
 
@@ -182,6 +212,15 @@ class SkStDMTestCase(ut.TestCase):
     def test_pdf(self):
         """Test pdf."""
 
+        eta, lam = 30, .5
+        skst = SkStDM(eta=eta, lam=lam)
+        size = (10, 1)
+        data = np.random.normal(size=size)
+        pdf = skst.pdf(data)
+
+        self.assertEqual(pdf.ndim, 1)
+        self.assertEqual(pdf.shape, (size[0], ))
+
         eta, lam = 30, [.5, 1.5, 2]
         skst = SkStDM(eta=eta, lam=lam)
         size = (10, len(lam))
@@ -190,6 +229,21 @@ class SkStDMTestCase(ut.TestCase):
 
         self.assertEqual(pdf.ndim, 1)
         self.assertEqual(pdf.shape, (size[0], ))
+
+    def test_cdf(self):
+        """Test cdf."""
+
+        eta, lam = 20, 1.5
+        skst = SkStDM(eta=eta, lam=lam)
+        cdf = skst.cdf(np.zeros(1))
+
+        self.assertIsInstance(cdf[0], float)
+
+        eta, lam = 20, [1.5, .5]
+        skst = SkStDM(eta=eta, lam=lam)
+        cdf = skst.cdf(np.zeros(2) - 10)
+
+        self.assertIsInstance(cdf[0], float)
 
     def test_loglikelihood(self):
         """Test log-likelihood."""
