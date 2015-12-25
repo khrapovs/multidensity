@@ -54,20 +54,27 @@ class SkStDM(MultiDensity):
 
     """
 
-    def __init__(self, eta=10., lam=[.5, 1.5], data=[0, 0]):
+    def __init__(self, eta=10., lam=[.5, 1.5],
+                 mu=None, sigma=None, data=[0, 0]):
         """Initialize the class.
 
         Parameters
         ----------
-        eta : array_like
+        eta : float
             Degrees of freedom. :math:`2 < \eta < \infty`
         lam : array_like
             Asymmetry. :math:`0 < \lambda < \infty`
+        mu : array_like
+            Constant in the mean
+        sigma : array_like
+            Covariance matrix
         data : array_like
             Data grid
 
         """
         super(SkStDM, self).__init__(eta=eta, lam=lam, data=data)
+        self.mu = mu
+        self.sigma = sigma
 
     def get_name(self):
         return 'Demarta & McNeil'
@@ -110,7 +117,10 @@ class SkStDM(MultiDensity):
         (ndim, ) array
 
         """
-        return self.eta / (2 - self.eta) * self.lam
+        if self.mu is None:
+            return self.eta / (2 - self.eta) * self.lam
+        else:
+            return np.array(self.mu)
 
     def const_sigma(self):
         """Compute a constant.
@@ -120,10 +130,13 @@ class SkStDM(MultiDensity):
         (ndim, ndim) array
 
         """
-        ndim = self.lam.size
-        return (1 - 2 / self.eta) * np.eye(ndim) \
-            - 2 * self.eta  / (self.eta - 2) / (self.eta - 4) \
-            * self.lam * self.lam[:, np.newaxis]
+        if self.sigma is None:
+            ndim = self.lam.size
+            return (1 - 2 / self.eta) * np.eye(ndim) \
+                - 2 * self.eta  / (self.eta - 2) / (self.eta - 4) \
+                * self.lam * self.lam[:, np.newaxis]
+        else:
+            return np.array(self.sigma)
 
     def pdf(self, data=None):
         """Probability density function (PDF).

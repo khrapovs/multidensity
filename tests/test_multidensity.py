@@ -159,6 +159,14 @@ class SkStDMTestCase(ut.TestCase):
         npt.assert_array_equal(skst.eta, np.array(eta))
         npt.assert_array_equal(skst.lam, np.array(lam))
 
+        mu, sigma = [.5, .4], np.ones((2, 2))
+        skst = SkStDM(eta=eta, lam=lam, mu=mu, sigma=sigma)
+
+        npt.assert_array_equal(skst.mu, np.array(mu))
+        npt.assert_array_equal(skst.sigma, np.array(sigma))
+        npt.assert_array_equal(skst.const_mu(), np.array(mu))
+        npt.assert_array_equal(skst.const_sigma(), np.array(sigma))
+
         eta, lam = 15, [1.5, .5]
         skst.from_theta(np.concatenate((np.atleast_1d(eta), lam)))
 
