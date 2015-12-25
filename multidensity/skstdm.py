@@ -23,6 +23,7 @@ import numpy as np
 
 from scipy.special import gamma, kv
 from scipy.linalg import solve, det
+from scipy.stats import invgamma, multivariate_normal
 
 from .multidensity import MultiDensity
 
@@ -163,3 +164,21 @@ class SkStDM(MultiDensity):
             / gamma(self.eta / 2) \
             * np.exp(diff_norm.T.dot(self.lam)) \
             * (1 + diff_sandwich / self.eta) ** (- (self.eta + ndim) / 2)
+
+    def rvs(self, size=10):
+        """Simulate random variables.
+
+        Parameters
+        ----------
+        size : int
+            Number of data points
+
+        Returns
+        -------
+        (size, ndim) array
+
+        """
+        igrv = invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
+        igrv = igrv[:, np.newaxis]
+        mvnorm = multivariate_normal.rvs(cov=self.const_sigma(), size=size)
+        return self.const_mu() + self.lam * igrv + igrv ** .5 * mvnorm

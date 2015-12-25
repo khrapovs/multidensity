@@ -186,7 +186,7 @@ class SkStDMTestCase(ut.TestCase):
     def test_loglikelihood(self):
         """Test log-likelihood."""
 
-        eta, lam = 10, [.5, 1.5, 2]
+        eta, lam = 100, [.5, 1.5, 2]
         theta = np.concatenate((np.atleast_1d(eta), lam))
         size = (10, len(lam))
         data = np.random.normal(size=size)
@@ -197,6 +197,16 @@ class SkStDMTestCase(ut.TestCase):
         self.assertIsInstance(logl1, float)
         self.assertNotEqual(logl1, logl2)
         npt.assert_array_equal(skst.data, data)
+
+    def test_rvs(self):
+        """Test simulation."""
+
+        eta, lam = 100, [.5, 1.5, 2]
+        skst = SkStDM(eta=eta, lam=lam)
+        size = 10
+        rvs = skst.rvs(size=size)
+
+        self.assertEqual(rvs.shape, (size, len(lam)))
 
 
 if __name__ == '__main__':

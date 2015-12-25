@@ -70,8 +70,23 @@ def plot_bidensity():
     skst.plot_bidensity()
 
 
+def plot_bidensity_skstdm():
+
+    eta, lam = 20, [1.5, -2]
+    skst = SkStDM(eta=eta, lam=lam)
+    skst.plot_bidensity()
+
+    rvs = skst.rvs(size=int(1e4))
+    sns.kdeplot(rvs, shade=True)
+    plt.axis('square')
+    plt.xlim([-2, 2])
+    plt.ylim([-2, 2])
+    plt.show()
+
+
 if __name__ == '__main__':
 
 #    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
-    plot_bidensity()
+#    plot_bidensity()
+    plot_bidensity_skstdm()

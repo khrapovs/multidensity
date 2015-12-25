@@ -165,7 +165,7 @@ class MultiDensity(object):
         xgrid, ygrid = np.meshgrid(xgrid, ygrid)
         data = np.vstack((xgrid.flatten(), ygrid.flatten())).T
         zvalues = self.pdf(data).reshape((ndots, ndots))
-        plt.contour(xgrid, ygrid, zvalues)
+        plt.contourf(xgrid, ygrid, zvalues)
         plt.axis('square')
         plt.title(self.get_name())
         plt.show()
