@@ -111,7 +111,24 @@ def compute_univ_cdf():
 
     eta, lam = 100, 1.5
     skst = SkStDM(eta=eta, lam=lam)
-    print(skst.cdf(np.zeros(1)))
+    print(skst.cdf(np.zeros(1)+10))
+
+
+def compute_quantile():
+    eta, lam = 20, 1.5
+    skst = SkStJR(eta=eta, lam=lam)
+    cdf = skst.cdf(np.zeros(1) - 2)[0]
+    print(skst.ppf(cdf))
+
+    eta, lam = 20, 1.5
+    skst = SkStBL(eta=eta, lam=lam)
+    cdf = skst.cdf(np.zeros(1) - 2)[0]
+    print(skst.ppf(cdf))
+
+    eta, lam = 100, 1.5
+    skst = SkStDM(eta=eta, lam=lam)
+    cdf = skst.cdf(np.zeros(1) - 2)[0]
+    print(skst.ppf(cdf))
 
 
 if __name__ == '__main__':
@@ -120,5 +137,6 @@ if __name__ == '__main__':
 #    estimate_bivariate_mle_jr()
 #    plot_bidensity()
 #    plot_bidensity_skstdm()
-    compute_cdf()
-    compute_univ_cdf()
+#    compute_cdf()
+#    compute_univ_cdf()
+    compute_quantile()

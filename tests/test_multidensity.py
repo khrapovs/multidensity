@@ -82,6 +82,17 @@ class SkStJRTestCase(ut.TestCase):
 
         self.assertIsInstance(cdf[0], float)
 
+    def test_quantile(self):
+        """Test quantile."""
+
+        eta, lam = 20, 1.5
+        skst = SkStJR(eta=eta, lam=lam)
+        arg = -2.
+        cdf = skst.cdf(arg)[0]
+        ppf = skst.ppf(cdf)
+
+        self.assertAlmostEqual(ppf, arg)
+
     def test_loglikelihood(self):
         """Test log-likelihood."""
 
@@ -154,6 +165,17 @@ class SkStBLTestCase(ut.TestCase):
         cdf = skst.cdf(np.zeros(2) - 10)
 
         self.assertIsInstance(cdf[0], float)
+
+    def test_quantile(self):
+        """Test quantile."""
+
+        eta, lam = 20, 1.5
+        skst = SkStBL(eta=eta, lam=lam)
+        arg = -2.
+        cdf = skst.cdf(arg)[0]
+        ppf = skst.ppf(cdf)
+
+        self.assertAlmostEqual(ppf, arg)
 
     def test_loglikelihood(self):
         """Test log-likelihood."""
@@ -244,6 +266,17 @@ class SkStDMTestCase(ut.TestCase):
         cdf = skst.cdf(np.zeros(2) - 10)
 
         self.assertIsInstance(cdf[0], float)
+
+    def test_quantile(self):
+        """Test quantile."""
+
+        eta, lam = 20, 1.5
+        skst = SkStDM(eta=eta, lam=lam)
+        arg = -2.
+        cdf = skst.cdf(arg)[0]
+        ppf = skst.ppf(cdf)
+
+        self.assertAlmostEqual(ppf, arg)
 
     def test_loglikelihood(self):
         """Test log-likelihood."""

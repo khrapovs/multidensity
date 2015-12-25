@@ -24,7 +24,7 @@ import matplotlib.pylab as plt
 import seaborn as sns
 
 from scipy.special import gamma
-from scipy.optimize import minimize
+from scipy.optimize import minimize, brentq
 from scipy.integrate import nquad
 
 __all__ = ['MultiDensity']
@@ -176,9 +176,29 @@ class MultiDensity(object):
             Value of CDF
 
         """
-        ndim = len(args)
+        if isinstance(args, float):
+            ndim = 1
+            args = np.array([args])
+        else:
+            ndim = len(args)
         ranges = list(zip(- np.ones(ndim) * np.inf, args))
         return nquad(self.pdf_args, ranges)
+
+    def ppf(self, value):
+        """Inverse univariate CDF function.
+
+        Parameters
+        ----------
+        value : float
+            Value of CDF
+
+        Returns
+        -------
+        arg : float
+            Quantile
+
+        """
+        return brentq(lambda x: self.cdf(x)[0] - value, -10, 10)
 
     def plot_bidensity(self):
         """Plot bivariate density.
