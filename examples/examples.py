@@ -131,6 +131,28 @@ def compute_quantile():
     print(skst.ppf(cdf))
 
 
+def likelihood(model_univ, model_mult, data):
+    data_marg = skst_univ.pdf_vec(data)
+    cdfs_marg = skst_univ.cdf_vec(data)
+    quantiles = skst_univ.ppf_vec(cdfs_marg)
+    cop_marg = skst_univ.pdf_vec(quantiles)
+    copula_density = skst_mult.pdf(quantiles) / np.prod(cop_marg, axis=1)
+    return np.log(copula_density) + np.log(np.prod(data_marg, axis=1))
+
+
+def compute_copula_likelihood():
+    eta, lam = 100, 1.5
+    skst_univ = SkStDM(eta=eta, lam=lam)
+
+    eta, lam = 100, [1.5, -2]
+    skst_mult = SkStDM(eta=eta, lam=lam)
+
+    data = np.random.normal(size=(10, 2))
+
+    ll = likelihood(skst_univ, skst_mult, data)
+    print(ll)
+
+
 if __name__ == '__main__':
 
 #    estimate_bivariate_mle_bl()
@@ -140,13 +162,4 @@ if __name__ == '__main__':
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()
-
-    eta, lam = 100, 1.5
-    skst_univ = SkStDM(eta=eta, lam=lam)
-    unif = [.5, .5]
-    quantiles = skst_univ.ppf_vec(unif)
-    marginals = skst_univ.pdf(quantiles[:, np.newaxis])
-    print(marginals)
-    eta, lam = 100, [1.5, -2]
-    skst_mv = SkStDM(eta=eta, lam=lam)
-    print(skst_mv.pdf(quantiles) / np.prod(marginals))
+    compute_copula_likelihood()

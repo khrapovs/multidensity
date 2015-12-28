@@ -114,6 +114,22 @@ class MultiDensity(object):
             raise ValueError('No data given!')
         return np.prod(self.marginals(data), axis=1)
 
+    def pdf_vec(self, data=None):
+        """Vectorized version of the univariate PDF.
+
+        Parameters
+        ----------
+        data : array_like
+            Grid of point to evaluate PDF at
+
+        Returns
+        -------
+        array
+            Univariate PDF values. Same dimension as input.
+
+        """
+        return np.vectorize(self.pdf)(data)
+
     def pdf_args(self, *args):
         """PDF with ordered argument signature, f(x0,...,xn).
 
