@@ -72,7 +72,7 @@ class SkStDM(MultiDensity):
             Data grid
 
         """
-        super().__init__(eta=eta, lam=lam, data=data)
+        super(SkStDM, self).__init__(eta=eta, lam=lam, data=data)
         self.mu = mu
         self.sigma = sigma
 
