@@ -74,13 +74,13 @@ class SkStJRTestCase(ut.TestCase):
         skst = SkStJR(eta=eta, lam=lam)
         cdf = skst.cdf(np.zeros(1))
 
-        self.assertIsInstance(cdf[0], float)
+        self.assertIsInstance(cdf, float)
 
         eta, lam = [20, 5], [1.5, .5]
         skst = SkStJR(eta=eta, lam=lam)
         cdf = skst.cdf(np.zeros(2) - 10)
 
-        self.assertIsInstance(cdf[0], float)
+        self.assertIsInstance(cdf, float)
 
     def test_quantile(self):
         """Test quantile."""
@@ -88,10 +88,16 @@ class SkStJRTestCase(ut.TestCase):
         eta, lam = 20, 1.5
         skst = SkStJR(eta=eta, lam=lam)
         arg = -2.
-        cdf = skst.cdf(arg)[0]
+        cdf = skst.cdf(arg)
         ppf = skst.ppf(cdf)
 
         self.assertAlmostEqual(ppf, arg)
+
+        arg = -.1 * np.ones(3)
+        cdf = skst.cdf_vec(arg)
+        quantiles = skst.ppf_vec(cdf)
+
+        npt.assert_array_almost_equal(arg, quantiles)
 
     def test_loglikelihood(self):
         """Test log-likelihood."""
@@ -158,13 +164,13 @@ class SkStBLTestCase(ut.TestCase):
         skst = SkStBL(eta=eta, lam=lam)
         cdf = skst.cdf(np.zeros(1))
 
-        self.assertIsInstance(cdf[0], float)
+        self.assertIsInstance(cdf, float)
 
         eta, lam = 20, [1.5, .5]
         skst = SkStBL(eta=eta, lam=lam)
         cdf = skst.cdf(np.zeros(2) - 10)
 
-        self.assertIsInstance(cdf[0], float)
+        self.assertIsInstance(cdf, float)
 
     def test_quantile(self):
         """Test quantile."""
@@ -172,10 +178,16 @@ class SkStBLTestCase(ut.TestCase):
         eta, lam = 20, 1.5
         skst = SkStBL(eta=eta, lam=lam)
         arg = -2.
-        cdf = skst.cdf(arg)[0]
+        cdf = skst.cdf(arg)
         ppf = skst.ppf(cdf)
 
         self.assertAlmostEqual(ppf, arg)
+
+        arg = -.1 * np.ones(3)
+        cdf = skst.cdf_vec(arg)
+        quantiles = skst.ppf_vec(cdf)
+
+        npt.assert_array_almost_equal(arg, quantiles)
 
     def test_loglikelihood(self):
         """Test log-likelihood."""
@@ -259,13 +271,13 @@ class SkStDMTestCase(ut.TestCase):
         skst = SkStDM(eta=eta, lam=lam)
         cdf = skst.cdf(np.zeros(1))
 
-        self.assertIsInstance(cdf[0], float)
+        self.assertIsInstance(cdf, float)
 
         eta, lam = 20, [1.5, .5]
         skst = SkStDM(eta=eta, lam=lam)
         cdf = skst.cdf(np.zeros(2) - 10)
 
-        self.assertIsInstance(cdf[0], float)
+        self.assertIsInstance(cdf, float)
 
     def test_quantile(self):
         """Test quantile."""
@@ -273,10 +285,16 @@ class SkStDMTestCase(ut.TestCase):
         eta, lam = 20, 1.5
         skst = SkStDM(eta=eta, lam=lam)
         arg = -2.
-        cdf = skst.cdf(arg)[0]
+        cdf = skst.cdf(arg)
         ppf = skst.ppf(cdf)
 
         self.assertAlmostEqual(ppf, arg)
+
+        arg = -.1 * np.ones(3)
+        cdf = skst.cdf_vec(arg)
+        quantiles = skst.ppf_vec(cdf)
+
+        npt.assert_array_almost_equal(arg, quantiles)
 
     def test_loglikelihood(self):
         """Test log-likelihood."""

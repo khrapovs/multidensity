@@ -162,13 +162,13 @@ class MultiDensity(object):
         return minimize(self.loglikelihood, theta_start, method='Nelder-Mead',
                         bounds=list(bounds))
 
-    def cdf(self, args):
+    def cdf(self, values):
         """CDF function.
 
         Parameters
         ----------
-        args : array_like
-            Argument of CDF
+        values : array_like
+            Argument of CDF. One for each dimension.
 
         Returns
         -------
@@ -176,13 +176,29 @@ class MultiDensity(object):
             Value of CDF
 
         """
-        if isinstance(args, float):
+        if isinstance(values, float):
             ndim = 1
-            args = np.array([args])
+            values = np.array([values])
         else:
-            ndim = len(args)
-        ranges = list(zip(- np.ones(ndim) * np.inf, args))
-        return nquad(self.pdf_args, ranges)
+            ndim = len(values)
+        ranges = list(zip(- np.ones(ndim) * 5, values))
+        return nquad(self.pdf_args, ranges)[0]
+
+    def cdf_vec(self, values):
+        """Vectorized version of the CDF.
+
+        Parameters
+        ----------
+        values : array_like
+            (T, k) argument of CDF. One for each dimension.
+
+        Returns
+        -------
+        (T, ) array
+            Value of CDF
+
+        """
+        return np.vectorize(self.cdf)(values)
 
     def ppf(self, value):
         """Inverse univariate CDF function.
@@ -190,15 +206,51 @@ class MultiDensity(object):
         Parameters
         ----------
         value : float
-            Value of CDF
+            Value of univariate CDF
 
         Returns
         -------
-        arg : float
-            Quantile
+        float
+            Quantile for one observation
 
         """
-        return brentq(lambda x: self.cdf(x)[0] - value, -10, 10)
+        if len(self.lam) > 1:
+            raise ValueError('The density object is multivariate.\
+                Need one dimension!')
+        return brentq(lambda x: self.cdf(x) - value, -10, 10)
+
+    def ppf_vec(self, values):
+        """Inverse univariate CDF function.
+
+        Parameters
+        ----------
+        values : array_like
+            Values of CDF
+
+        Returns
+        -------
+        array
+            Quantiles at arbitrary points
+
+        """
+        return np.vectorize(self.ppf)(values)
+
+    def copula_density(self, args):
+        """Copula density.
+
+        Parameters
+        ----------
+        args : (ndim, ) array
+            Vector with each element in (0, 1)
+
+        Returns
+        -------
+        float
+            Compula density
+
+        """
+
+        return self.pdf(*self.ppf_vec(args))
 
     def plot_bidensity(self):
         """Plot bivariate density.

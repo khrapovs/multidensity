@@ -117,17 +117,17 @@ def compute_univ_cdf():
 def compute_quantile():
     eta, lam = 20, 1.5
     skst = SkStJR(eta=eta, lam=lam)
-    cdf = skst.cdf(np.zeros(1) - 2)[0]
+    cdf = skst.cdf(np.zeros(1) - 2)
     print(skst.ppf(cdf))
 
     eta, lam = 20, 1.5
     skst = SkStBL(eta=eta, lam=lam)
-    cdf = skst.cdf(np.zeros(1) - 2)[0]
+    cdf = skst.cdf(np.zeros(1) - 2)
     print(skst.ppf(cdf))
 
     eta, lam = 100, 1.5
     skst = SkStDM(eta=eta, lam=lam)
-    cdf = skst.cdf(np.zeros(1) - 2)[0]
+    cdf = skst.cdf(np.zeros(1) - 2)
     print(skst.ppf(cdf))
 
 
@@ -139,4 +139,14 @@ if __name__ == '__main__':
 #    plot_bidensity_skstdm()
 #    compute_cdf()
 #    compute_univ_cdf()
-    compute_quantile()
+#    compute_quantile()
+
+    eta, lam = 100, 1.5
+    skst_univ = SkStDM(eta=eta, lam=lam)
+    unif = [.5, .5]
+    quantiles = skst_univ.ppf_vec(unif)
+    marginals = skst_univ.pdf(quantiles[:, np.newaxis])
+    print(marginals)
+    eta, lam = 100, [1.5, -2]
+    skst_mv = SkStDM(eta=eta, lam=lam)
+    print(skst_mv.pdf(quantiles) / np.prod(marginals))
