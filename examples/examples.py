@@ -9,7 +9,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import seaborn as sns
 
-from multidensity import SkStJR, SkStBL, SkStDM
+from multidensity import SkStJR, SkStBL, SkStDM, SkStAC, MvSt
 from skewstudent import SkewStudent
 
 
@@ -67,6 +67,14 @@ def plot_bidensity():
 
     eta, lam = 20, [1.5, -2]
     skst = SkStDM(eta=eta, lam=lam)
+    skst.plot_bidensity()
+
+    eta, lam = 20, [1.5, -2]
+    skst = SkStAC(eta=eta, lam=lam)
+    skst.plot_bidensity()
+
+    eta = 20
+    skst = MvSt(eta=eta)
     skst.plot_bidensity()
 
 
@@ -157,9 +165,9 @@ if __name__ == '__main__':
 
 #    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
-#    plot_bidensity()
+    plot_bidensity()
 #    plot_bidensity_skstdm()
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()
-    compute_copula_likelihood()
+#    compute_copula_likelihood()
