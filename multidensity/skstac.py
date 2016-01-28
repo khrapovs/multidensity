@@ -230,7 +230,8 @@ class SkStAC(MultiDensity):
         (size, ndim) array
 
         """
-        mvsn = MvSN(lam=self.lam)
+        ndim = self.lam.size
+        mvsn = MvSN(lam=self.lam, mu=np.zeros(ndim), sigma=self.const_sigma())
         mvs_rvs = mvsn.rvs(size=size)
         igrv = invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
         igrv = igrv[:, np.newaxis]

@@ -82,15 +82,70 @@ def plot_bidensity():
     skst.plot_bidensity()
 
 
-def plot_bidensity_skstdm():
+def plot_bidensity_simulated():
 
-    eta, lam = 20, [1.5, -2]
-    sigma = [[1, -.5], [-.5, 1]]
-    sigma = None
-    skst = SkStDM(eta=eta, lam=lam, sigma=sigma)
+    size = int(1e4)
+
+    lam = [1.5, -2]
+    mvsn = MvSN(lam=lam)
+    mvsn.plot_bidensity()
+
+    rvs = mvsn.rvs(size=size)
+    sns.kdeplot(rvs, shade=True)
+    plt.axis('square')
+    plt.xlim([-2, 2])
+    plt.ylim([-2, 2])
+    plt.show()
+
+    eta = 20
+    skst = MvSt(eta=eta)
     skst.plot_bidensity()
 
-    rvs = skst.rvs(size=int(1e4))
+    rvs = skst.rvs(size=size)
+    sns.kdeplot(rvs, shade=True)
+    plt.axis('square')
+    plt.xlim([-2, 2])
+    plt.ylim([-2, 2])
+    plt.show()
+
+#    eta, lam = [20, 5], [1.5, .5]
+#    skst = SkStJR(eta=eta, lam=lam)
+#    skst.plot_bidensity()
+#
+#    rvs = skst.rvs(size=size)
+#    sns.kdeplot(rvs, shade=True)
+#    plt.axis('square')
+#    plt.xlim([-2, 2])
+#    plt.ylim([-2, 2])
+#    plt.show()
+
+#    eta, lam = 20, [1.5, .5]
+#    skst = SkStBL(eta=eta, lam=lam)
+#    skst.plot_bidensity()
+#
+#    rvs = skst.rvs(size=size)
+#    sns.kdeplot(rvs, shade=True)
+#    plt.axis('square')
+#    plt.xlim([-2, 2])
+#    plt.ylim([-2, 2])
+#    plt.show()
+
+    eta, lam = 20, [1.5, -2]
+    skst = SkStDM(eta=eta, lam=lam)
+    skst.plot_bidensity()
+
+    rvs = skst.rvs(size=size)
+    sns.kdeplot(rvs, shade=True)
+    plt.axis('square')
+    plt.xlim([-2, 2])
+    plt.ylim([-2, 2])
+    plt.show()
+
+    eta, lam = 20, [1.5, -2]
+    skst = SkStAC(eta=eta, lam=lam)
+    skst.plot_bidensity()
+
+    rvs = skst.rvs(size=size)
     sns.kdeplot(rvs, shade=True)
     plt.axis('square')
     plt.xlim([-2, 2])
@@ -169,8 +224,8 @@ if __name__ == '__main__':
 
 #    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
-    plot_bidensity()
-#    plot_bidensity_skstdm()
+#    plot_bidensity()
+    plot_bidensity_simulated()
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()

@@ -236,7 +236,7 @@ class MultiDensity(object):
         return brentq(lambda x: self.cdf(x) - value, -10, 10)
 
     def ppf_vec(self, values):
-        """Inverse univariate CDF function.
+        """Vectorized version of the Inverse CDF function.
 
         Parameters
         ----------
