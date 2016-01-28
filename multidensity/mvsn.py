@@ -114,7 +114,6 @@ class MvSN(MultiDensity):
 
         """
         if self.mu is None:
-#            return np.zeros(self.ndim)
             return -2 * (2 / np.pi)**.5 \
                 * self.const_delta() * self.const_omega()
         else:
@@ -241,3 +240,24 @@ class MvSN(MultiDensity):
             return mvncdf[0]
         else:
             return np.array(mvncdf)
+
+    def rvs(self, size=10):
+        """Simulate random variables.
+
+        Parameters
+        ----------
+        size : int
+            Number of data points
+
+        Returns
+        -------
+        (size, ndim) array
+
+        """
+        rho = self.const_rho()
+        delta = np.atleast_2d(self.const_delta())
+        rho_ext = np.bmat([[np.ones((1, 1)), delta], [delta.T, rho]])
+        normrv = scs.multivariate_normal.rvs(cov=rho_ext, size=size)
+        ind = (normrv[:, 0] >= 0).astype(float)[:, np.newaxis]
+        rvs = normrv[:, 1:] * (2 * ind - 1)
+        return self.const_mu() + rvs * self.const_omega()

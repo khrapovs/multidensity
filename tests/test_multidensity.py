@@ -116,15 +116,15 @@ class MvSNTestCase(ut.TestCase):
         self.assertNotEqual(logl1, logl2)
         npt.assert_array_equal(skst.data, data)
 
-#    def test_rvs(self):
-#        """Test simulation."""
-#
-#        lam = [.5, 1.5, 2]
-#        skst = MvSN(lam=lam)
-#        size = 10
-#        rvs = skst.rvs(size=size)
-#
-#        self.assertEqual(rvs.shape, (size, len(lam)))
+    def test_rvs(self):
+        """Test simulation."""
+
+        lam = [.5, 1.5, 2]
+        skst = MvSN(lam=lam)
+        size = 10
+        rvs = skst.rvs(size=size)
+
+        self.assertEqual(rvs.shape, (size, len(lam)))
 
 
 class SkStJRTestCase(ut.TestCase):

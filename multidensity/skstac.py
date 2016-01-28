@@ -27,6 +27,7 @@ import scipy.linalg as scl
 
 from .multidensity import MultiDensity
 from .mvst import MvSt
+from .mvsn import MvSN
 
 __all__ = ['SkStAC']
 
@@ -229,8 +230,8 @@ class SkStAC(MultiDensity):
         (size, ndim) array
 
         """
-        # TODO: This method is incorrect. Should use Skewed Normal!
+        mvsn = MvSN(lam=self.lam)
+        mvs_rvs = mvsn.rvs(size=size)
         igrv = invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
         igrv = igrv[:, np.newaxis]
-        mvnorm = multivariate_normal.rvs(cov=self.const_sigma(), size=size)
-        return self.const_mu() + self.lam * igrv + igrv ** .5 * mvnorm
+        return self.const_mu() + igrv ** .5 * mvs_rvs
