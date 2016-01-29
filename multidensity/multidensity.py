@@ -69,7 +69,10 @@ class MultiDensity(object):
             Data grid
 
         """
-        self.ndim = ndim
+        if ndim is None:
+            raise ValueError('Please, provide dimension!')
+        else:
+            self.ndim = ndim
         self.eta = None
         self.lam = None
         self.data = None

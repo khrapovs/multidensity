@@ -51,7 +51,7 @@ class MvSt(SkStDM):
 
     """
 
-    def __init__(self, ndim=2, eta=10., mu=None, sigma=None, data=[0, 0]):
+    def __init__(self, ndim=None, eta=10., mu=None, sigma=None, data=None):
         """Initialize the class.
 
         Parameters
@@ -66,8 +66,8 @@ class MvSt(SkStDM):
             Data grid
 
         """
-        super(SkStDM, self).__init__(eta=eta, lam=np.zeros(ndim), data=data)
-        self.ndim = ndim
+        super(SkStDM, self).__init__(ndim=ndim, eta=eta,
+                                     lam=np.zeros(ndim), data=data)
         self.mu = mu
         self.sigma = sigma
 

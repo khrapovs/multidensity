@@ -56,8 +56,8 @@ class SkStAC(MultiDensity):
 
     """
 
-    def __init__(self, eta=10., lam=[.5, 1.5],
-                 mu=None, sigma=None, data=[0, 0]):
+    def __init__(self, ndim=None, eta=10., lam=[.5, 1.5],
+                 mu=None, sigma=None, data=None):
         """Initialize the class.
 
         Parameters
@@ -74,7 +74,7 @@ class SkStAC(MultiDensity):
             Data grid
 
         """
-        super(SkStAC, self).__init__(eta=eta, lam=lam, data=data)
+        super(SkStAC, self).__init__(ndim=ndim, eta=eta, lam=lam, data=data)
         self.mu = mu
         self.sigma = sigma
 
@@ -231,7 +231,8 @@ class SkStAC(MultiDensity):
 
         """
         ndim = self.lam.size
-        mvsn = MvSN(lam=self.lam, mu=np.zeros(ndim), sigma=self.const_sigma())
+        mvsn = MvSN(ndim=ndim, lam=self.lam,
+                    mu=np.zeros(ndim), sigma=self.const_sigma())
         mvs_rvs = mvsn.rvs(size=size)
         igrv = scs.invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
         igrv = igrv[:, np.newaxis]

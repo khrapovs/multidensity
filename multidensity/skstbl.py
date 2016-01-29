@@ -52,7 +52,7 @@ class SkStBL(MultiDensity):
 
     """
 
-    def __init__(self, eta=10., lam=[.5, 1.5], data=[0, 0]):
+    def __init__(self, ndim=None, eta=10., lam=[.5, 1.5], data=[0, 0]):
         """Initialize the class.
 
         Parameters
@@ -65,7 +65,7 @@ class SkStBL(MultiDensity):
             Data grid
 
         """
-        super(SkStBL, self).__init__(eta=eta, lam=lam, data=data)
+        super(SkStBL, self).__init__(ndim=ndim, eta=eta, lam=lam, data=data)
 
     def get_name(self):
         return 'Bauwens & Laurent'

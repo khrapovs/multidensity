@@ -54,8 +54,8 @@ class SkStDM(MultiDensity):
 
     """
 
-    def __init__(self, eta=10., lam=[.5, 1.5],
-                 mu=None, sigma=None, data=[0, 0]):
+    def __init__(self, ndim=None, eta=10., lam=[.5, 1.5],
+                 mu=None, sigma=None, data=None):
         """Initialize the class.
 
         Parameters
@@ -72,7 +72,7 @@ class SkStDM(MultiDensity):
             Data grid
 
         """
-        super(SkStDM, self).__init__(eta=eta, lam=lam, data=data)
+        super(SkStDM, self).__init__(ndim=ndim, eta=eta, lam=lam, data=data)
         self.mu = mu
         self.sigma = sigma
 

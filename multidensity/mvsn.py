@@ -68,21 +68,8 @@ class MvSN(MultiDensity):
 
         """
         super(MvSN, self).__init__(ndim=ndim, lam=lam, data=data)
-        self.get_dimension()
         self.mu = mu
         self.sigma = sigma
-
-    def get_dimension(self):
-        """Get dimension of the density.
-
-        """
-        if self.ndim is None:
-            if self.lam is not None:
-                self.ndim = self.lam.size
-            elif self.data is not None:
-                self.ndim = self.data.shape[1]
-            else:
-                raise ValueError('Can not determine density dimension!')
 
     def get_name(self):
         return 'Multivariate Skewed Normal'
