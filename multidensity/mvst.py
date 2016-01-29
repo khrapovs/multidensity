@@ -21,9 +21,8 @@ from __future__ import print_function, division
 
 import numpy as np
 
-from scipy.special import gamma, kv
+from scipy.special import gamma
 from scipy.linalg import solve, det
-from scipy.stats import invgamma, multivariate_normal
 
 from .skstdm import SkStDM
 

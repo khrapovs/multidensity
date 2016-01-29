@@ -21,9 +21,6 @@ from __future__ import print_function, division
 
 import numpy as np
 
-from scipy.special import gamma, kv
-from scipy.linalg import solve, det
-from scipy.stats import invgamma, multivariate_normal
 import scipy.stats as scs
 import scipy.linalg as scl
 
@@ -61,7 +58,7 @@ class MvSN(MultiDensity):
         Parameters
         ----------
         lam : array_like
-            Asymmetry. :math:`0 < \lambda < \infty`
+            Asymmetry. :math:`-\infty < \lambda < \infty`
         mu : array_like
             Constant in the mean. None for centered density.
         sigma : array_like

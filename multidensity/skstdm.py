@@ -22,8 +22,8 @@ from __future__ import print_function, division
 import numpy as np
 
 from scipy.special import gamma, kv
-from scipy.linalg import solve, det
-from scipy.stats import invgamma, multivariate_normal
+import scipy.linalg as scl
+import scipy.stats as scs
 
 from .multidensity import MultiDensity
 
@@ -163,15 +163,15 @@ class SkStDM(MultiDensity):
         # (T, k) array
         diff = self.data - self.const_mu()
         # (k, T) array
-        diff_norm = solve(self.const_sigma(), diff.T)
+        diff_norm = scl.solve(self.const_sigma(), diff.T)
         # (T, ) array
         diff_sandwich = (diff.T * diff_norm).sum(0)
         # float
-        norm_lam = (self.lam * solve(self.const_sigma(), self.lam)).sum()
+        norm_lam = (self.lam * scl.solve(self.const_sigma(), self.lam)).sum()
         # (T, ) array
         kappa = ((self.eta + diff_sandwich) * norm_lam) ** .5
         return 2 ** (1 - (self.eta + ndim) / 2) \
-            / ((np.pi * self.eta) ** ndim * det(self.const_sigma())) **.5 \
+            / ((np.pi * self.eta) ** ndim * scl.det(self.const_sigma())) **.5 \
             * kv((self.eta + ndim) / 2, kappa) \
             * kappa ** ((self.eta + ndim) / 2) \
             / gamma(self.eta / 2) \
@@ -191,7 +191,7 @@ class SkStDM(MultiDensity):
         (size, ndim) array
 
         """
-        igrv = invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
+        igrv = scs.invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
         igrv = igrv[:, np.newaxis]
-        mvnorm = multivariate_normal.rvs(cov=self.const_sigma(), size=size)
+        mvnorm = scs.multivariate_normal.rvs(cov=self.const_sigma(), size=size)
         return self.const_mu() + self.lam * igrv + igrv ** .5 * mvnorm

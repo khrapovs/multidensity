@@ -21,8 +21,8 @@ from __future__ import print_function, division
 
 import numpy as np
 
-from scipy.special import gamma, kv
-from scipy.stats import invgamma, multivariate_normal, t
+from scipy.special import gamma
+import scipy.stats as scs
 import scipy.linalg as scl
 
 from .multidensity import MultiDensity
@@ -215,7 +215,7 @@ class SkStAC(MultiDensity):
         arg = (diff * (self.lam / omega)).sum(1) \
             * ((self.eta + ndim) / (diff_sandwich + self.eta))**.5
         df = self.eta + ndim
-        return 2 * mvst.pdf(diff) * t.cdf(arg, df=df)
+        return 2 * mvst.pdf(diff) * scs.t.cdf(arg, df=df)
 
     def rvs(self, size=10):
         """Simulate random variables.
@@ -233,6 +233,6 @@ class SkStAC(MultiDensity):
         ndim = self.lam.size
         mvsn = MvSN(lam=self.lam, mu=np.zeros(ndim), sigma=self.const_sigma())
         mvs_rvs = mvsn.rvs(size=size)
-        igrv = invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
+        igrv = scs.invgamma.rvs(self.eta / 2, scale=self.eta / 2, size=size)
         igrv = igrv[:, np.newaxis]
         return self.const_mu() + igrv ** .5 * mvs_rvs
