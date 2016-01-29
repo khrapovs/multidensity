@@ -54,22 +54,25 @@ class MultiDensity(object):
 
     """
 
-    def __init__(self, eta=[10., 10], lam=[.5, 1.5], data=[0, 0]):
+    def __init__(self, eta=None, lam=None, data=None):
         """Initialize the class.
 
         Parameters
         ----------
         eta : array_like
-            Degrees of freedom. :math:`2 < \eta < \infty`
+            Degrees of freedom
         lam : array_like
-            Asymmetry. :math:`0 < \lambda < \infty`
+            Asymmetry
         data : array_like
             Data grid
 
         """
-        self.eta = np.atleast_1d(eta)
-        self.lam = np.atleast_1d(lam)
-        self.data = np.atleast_2d(data)
+        if eta is not None:
+            self.eta = np.atleast_1d(eta)
+        if lam is not None:
+            self.lam = np.atleast_1d(lam)
+        if data is not None:
+            self.data = np.atleast_2d(data)
 
     def const_a(self):
         """Compute a constant.

@@ -21,7 +21,6 @@ class MvSNTestCase(ut.TestCase):
 
         skst = MvSN()
 
-        self.assertIsInstance(skst.eta, np.ndarray)
         self.assertIsInstance(skst.lam, np.ndarray)
 
         lam = [.5, 1.5]
