@@ -22,7 +22,7 @@ def estimate_bivariate_mle_bl():
     data = skst.rvs(size=size)
 
     model = SkStBL(data=data)
-    out = model.fit_mle()
+    out = model.fit_mle(method='L-BFGS-B')
     print(out)
 
 
@@ -222,10 +222,10 @@ def compute_copula_likelihood():
 
 if __name__ == '__main__':
 
-#    estimate_bivariate_mle_bl()
+    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
 #    plot_bidensity()
-    plot_bidensity_simulated()
+#    plot_bidensity_simulated()
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()

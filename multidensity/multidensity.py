@@ -155,13 +155,15 @@ class MultiDensity(object):
         self.from_theta(theta)
         return -np.log(self.pdf(self.data)).mean()
 
-    def fit_mle(self, theta_start=None):
+    def fit_mle(self, theta_start=None, method='Nelder-Mead'):
         """Fit parameters with MLE.
 
         Parameters
         ----------
-        theta : array_like
+        theta_start : array_like
             Density parameters
+        method : str
+            Optimization method
 
         Returns
         -------
@@ -172,10 +174,10 @@ class MultiDensity(object):
         ndim = self.data.shape[1]
         if theta_start is None:
             theta_start = self.theta_start(ndim)
-        bound_eta = np.ones(ndim) * 2
+        bound_eta = np.ones(1) * 2
         bound_lam = np.zeros(ndim)
         bounds = zip(np.concatenate((bound_eta, bound_lam)), 2 * ndim * [None])
-        return minimize(self.loglikelihood, theta_start, method='Nelder-Mead',
+        return minimize(self.loglikelihood, theta_start, method=method,
                         bounds=list(bounds))
 
     def cdf(self, values):
