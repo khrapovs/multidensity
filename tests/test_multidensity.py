@@ -47,6 +47,14 @@ class MvSNTestCase(ut.TestCase):
 
         npt.assert_array_equal(skst.data, np.atleast_2d(data))
 
+    def test_dimensions(self):
+        """Test dimensions."""
+
+        lam = .5
+        mvsn = MvSN(lam=lam)
+
+        self.assertEqual(mvsn.ndim, 1)
+
     def test_pdf(self):
         """Test pdf."""
 

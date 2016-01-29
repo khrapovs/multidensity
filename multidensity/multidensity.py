@@ -54,11 +54,13 @@ class MultiDensity(object):
 
     """
 
-    def __init__(self, eta=None, lam=None, data=None):
+    def __init__(self, ndim=None, eta=None, lam=None, data=None):
         """Initialize the class.
 
         Parameters
         ----------
+        ndim : int
+            Number of dimensions
         eta : array_like
             Degrees of freedom
         lam : array_like
@@ -67,6 +69,10 @@ class MultiDensity(object):
             Data grid
 
         """
+        self.ndim = ndim
+        self.eta = None
+        self.lam = None
+        self.data = None
         if eta is not None:
             self.eta = np.atleast_1d(eta)
         if lam is not None:
