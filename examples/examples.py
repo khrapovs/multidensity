@@ -21,7 +21,7 @@ def estimate_bivariate_mle_bl():
     skst = SkewStudent(eta=eta, lam=lam)
     data = skst.rvs(size=size)
 
-    model = SkStBL(data=data)
+    model = SkStBL(ndim=ndim, data=data)
     out = model.fit_mle(method='L-BFGS-B')
     print(out)
 
@@ -34,7 +34,7 @@ def estimate_bivariate_mle_jr():
     skst = SkewStudent(eta=eta, lam=lam)
     data = skst.rvs(size=size)
 
-    model = SkStJR(data=data)
+    model = SkStJR(ndim=ndim, data=data)
     out = model.fit_mle()
     print(out)
 
@@ -58,27 +58,27 @@ def estimate_bivariate_mle_jr():
 def plot_bidensity():
 
     lam = [1.5, -2]
-    mvsn = MvSN(lam=lam)
+    mvsn = MvSN(ndim=len(lam), lam=lam)
     mvsn.plot_bidensity()
 
     eta = 20
-    skst = MvSt(eta=eta)
+    skst = MvSt(ndim=2, eta=eta)
     skst.plot_bidensity()
 
     eta, lam = [20, 5], [1.5, .5]
-    skst = SkStJR(eta=eta, lam=lam)
+    skst = SkStJR(ndim=len(lam), eta=eta, lam=lam)
     skst.plot_bidensity()
 
     eta, lam = 20, [1.5, .5]
-    skst = SkStBL(eta=eta, lam=lam)
+    skst = SkStBL(ndim=len(lam), eta=eta, lam=lam)
     skst.plot_bidensity()
 
     eta, lam = 20, [1.5, -2]
-    skst = SkStDM(eta=eta, lam=lam)
+    skst = SkStDM(ndim=len(lam), eta=eta, lam=lam)
     skst.plot_bidensity()
 
     eta, lam = 20, [1.5, -2]
-    skst = SkStAC(eta=eta, lam=lam)
+    skst = SkStAC(ndim=len(lam), eta=eta, lam=lam)
     skst.plot_bidensity()
 
 
@@ -87,7 +87,7 @@ def plot_bidensity_simulated():
     size = int(1e4)
 
     lam = [1.5, -2]
-    mvsn = MvSN(lam=lam)
+    mvsn = MvSN(ndim=len(lam), lam=lam)
     mvsn.plot_bidensity()
 
     rvs = mvsn.rvs(size=size)
@@ -98,7 +98,7 @@ def plot_bidensity_simulated():
     plt.show()
 
     eta = 20
-    skst = MvSt(eta=eta)
+    skst = MvSt(ndim=2, eta=eta)
     skst.plot_bidensity()
 
     rvs = skst.rvs(size=size)
@@ -109,7 +109,7 @@ def plot_bidensity_simulated():
     plt.show()
 
 #    eta, lam = [20, 5], [1.5, .5]
-#    skst = SkStJR(eta=eta, lam=lam)
+#    skst = SkStJR(ndim=len(lam), eta=eta, lam=lam)
 #    skst.plot_bidensity()
 #
 #    rvs = skst.rvs(size=size)
@@ -120,7 +120,7 @@ def plot_bidensity_simulated():
 #    plt.show()
 
 #    eta, lam = 20, [1.5, .5]
-#    skst = SkStBL(eta=eta, lam=lam)
+#    skst = SkStBL(ndim=len(lam), eta=eta, lam=lam)
 #    skst.plot_bidensity()
 #
 #    rvs = skst.rvs(size=size)
@@ -131,7 +131,7 @@ def plot_bidensity_simulated():
 #    plt.show()
 
     eta, lam = 20, [1.5, -2]
-    skst = SkStDM(eta=eta, lam=lam)
+    skst = SkStDM(ndim=len(lam), eta=eta, lam=lam)
     skst.plot_bidensity()
 
     rvs = skst.rvs(size=size)
@@ -142,7 +142,7 @@ def plot_bidensity_simulated():
     plt.show()
 
     eta, lam = 20, [1.5, -2]
-    skst = SkStAC(eta=eta, lam=lam)
+    skst = SkStAC(ndim=len(lam), eta=eta, lam=lam)
     skst.plot_bidensity()
 
     rvs = skst.rvs(size=size)
@@ -155,64 +155,64 @@ def plot_bidensity_simulated():
 
 def compute_cdf():
     eta, lam = [20, 5], [1.5, .5]
-    skst = SkStJR(eta=eta, lam=lam)
+    skst = SkStJR(ndim=len(lam), eta=eta, lam=lam)
     print(skst.cdf(np.zeros(2)))
 
     eta, lam = 20, [1.5, .5]
-    skst = SkStBL(eta=eta, lam=lam)
+    skst = SkStBL(ndim=len(lam), eta=eta, lam=lam)
     print(skst.cdf(np.zeros(2)))
 
     eta, lam = 100, [1.5, -2]
-    skst = SkStDM(eta=eta, lam=lam)
+    skst = SkStDM(ndim=len(lam), eta=eta, lam=lam)
     print(skst.cdf(np.zeros(2)))
 
 
 def compute_univ_cdf():
     eta, lam = 20, 1.5
-    skst = SkStJR(eta=eta, lam=lam)
+    skst = SkStJR(ndim=1, eta=eta, lam=lam)
     print(skst.cdf(np.zeros(1)))
 
     eta, lam = 20, 1.5
-    skst = SkStBL(eta=eta, lam=lam)
+    skst = SkStBL(ndim=1, eta=eta, lam=lam)
     print(skst.cdf(np.zeros(1)))
 
     eta, lam = 100, 1.5
-    skst = SkStDM(eta=eta, lam=lam)
+    skst = SkStDM(ndim=1, eta=eta, lam=lam)
     print(skst.cdf(np.zeros(1)+10))
 
 
 def compute_quantile():
     eta, lam = 20, 1.5
-    skst = SkStJR(eta=eta, lam=lam)
+    skst = SkStJR(ndim=1, eta=eta, lam=lam)
     cdf = skst.cdf(np.zeros(1) - 2)
     print(skst.ppf(cdf))
 
     eta, lam = 20, 1.5
-    skst = SkStBL(eta=eta, lam=lam)
+    skst = SkStBL(ndim=1, eta=eta, lam=lam)
     cdf = skst.cdf(np.zeros(1) - 2)
     print(skst.ppf(cdf))
 
     eta, lam = 100, 1.5
-    skst = SkStDM(eta=eta, lam=lam)
+    skst = SkStDM(ndim=1, eta=eta, lam=lam)
     cdf = skst.cdf(np.zeros(1) - 2)
     print(skst.ppf(cdf))
 
 
 def likelihood(model_univ, model_mult, data):
-    data_marg = skst_univ.pdf_vec(data)
-    cdfs_marg = skst_univ.cdf_vec(data)
-    quantiles = skst_univ.ppf_vec(cdfs_marg)
-    cop_marg = skst_univ.pdf_vec(quantiles)
-    copula_density = skst_mult.pdf(quantiles) / np.prod(cop_marg, axis=1)
+    data_marg = model_univ.pdf_vec(data)
+    cdfs_marg = model_univ.cdf_vec(data)
+    quantiles = model_univ.ppf_vec(cdfs_marg)
+    cop_marg = model_univ.pdf_vec(quantiles)
+    copula_density = model_mult.pdf(quantiles) / np.prod(cop_marg, axis=1)
     return np.log(copula_density) + np.log(np.prod(data_marg, axis=1))
 
 
 def compute_copula_likelihood():
     eta, lam = 100, 1.5
-    skst_univ = SkStDM(eta=eta, lam=lam)
+    skst_univ = SkStDM(ndim=1, eta=eta, lam=lam)
 
     eta, lam = 100, [1.5, -2]
-    skst_mult = SkStDM(eta=eta, lam=lam)
+    skst_mult = SkStDM(ndim=len(lam), eta=eta, lam=lam)
 
     data = np.random.normal(size=(10, 2))
 
@@ -222,10 +222,10 @@ def compute_copula_likelihood():
 
 if __name__ == '__main__':
 
-    estimate_bivariate_mle_bl()
+#    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
 #    plot_bidensity()
-#    plot_bidensity_simulated()
+    plot_bidensity_simulated()
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()
