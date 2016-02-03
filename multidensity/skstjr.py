@@ -1,19 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Skewed Student Distribution (Jondeau & Rockinger)
-==============================================================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
+Multivariate Skewed Student (Jondeau & Rockinger)
+=================================================
 
 
 """
@@ -45,10 +34,6 @@ class SkStJR(MultiDensity):
     -------
     from_theta
         Initialize individual parameters from theta
-    marginals
-        Marginal drobability density functions
-    theta_start
-        Initialize parameter for optimization
 
     """
 

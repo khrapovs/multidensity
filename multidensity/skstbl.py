@@ -1,20 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Skewed Student Distribution (Bauwens & Laurent)
-============================================================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
-
+Multivariate Skewed Student (Bauwens & Laurent)
+===============================================
 
 """
 from __future__ import print_function, division
@@ -45,10 +33,6 @@ class SkStBL(MultiDensity):
     -------
     from_theta
         Initialize individual parameters from theta
-    pdf
-        Probability density function
-    theta_start
-        Initialize parameter for optimization
 
     """
 

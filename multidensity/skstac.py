@@ -1,20 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Skewed Student Distribution (Azzalini & Capitanio)
-===============================================================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
-
+Multivariate Skewed Student (Azzalini & Capitanio)
+==================================================
 
 """
 from __future__ import print_function, division
@@ -49,10 +37,8 @@ class SkStAC(MultiDensity):
     -------
     from_theta
         Initialize individual parameters from theta
-    pdf
-        Probability density function
-    theta_start
-        Initialize parameter for optimization
+    rvs
+        Simulate random variables
 
     """
 

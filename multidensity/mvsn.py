@@ -1,20 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Skewed Normal Distribution (Azzalini & Capitanio)
-==============================================================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
-
+Multivariate Skewed Normal (Azzalini & Capitanio)
+=================================================
 
 """
 from __future__ import print_function, division
@@ -44,10 +32,10 @@ class MvSN(MultiDensity):
     -------
     from_theta
         Initialize individual parameters from theta
-    pdf
-        Probability density function
-    theta_start
-        Initialize parameter for optimization
+    cdf
+        Cumulative density function (CDF)
+    rvs
+        Simulate random variables
 
     """
 

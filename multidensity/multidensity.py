@@ -1,19 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Distributions
-==========================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
+Generic Class for Multivariate Distributions
+============================================
 
 
 """

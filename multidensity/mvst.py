@@ -1,20 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Student Distribution (Demarta & McNeil)
-====================================================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
-
+Multivariate Student (Demarta & McNeil)
+=======================================
 
 """
 from __future__ import print_function, division
@@ -44,10 +32,6 @@ class MvSt(SkStDM):
     -------
     from_theta
         Initialize individual parameters from theta
-    pdf
-        Probability density function
-    theta_start
-        Initialize parameter for optimization
 
     """
 

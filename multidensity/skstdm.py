@@ -1,20 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 r"""
-Multivariate Skewed Student Distribution (Demarta & McNeil)
-===========================================================
-
-Introduction
-------------
-
-
-References
-----------
-
-
-Examples
---------
-
+Multivariate Skewed Student (Demarta & McNeil)
+==============================================
 
 """
 from __future__ import print_function, division
@@ -47,10 +35,8 @@ class SkStDM(MultiDensity):
     -------
     from_theta
         Initialize individual parameters from theta
-    pdf
-        Probability density function
-    theta_start
-        Initialize parameter for optimization
+    rvs
+        Simulate random variables
 
     """
 
