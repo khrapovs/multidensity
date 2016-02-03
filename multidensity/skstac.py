@@ -9,7 +9,7 @@ from __future__ import print_function, division
 
 import numpy as np
 
-from scipy.special import gamma
+from scipy.special import gammaln
 import scipy.stats as scs
 import scipy.linalg as scl
 
@@ -136,7 +136,7 @@ class SkStAC(MultiDensity):
         (ndim, ) array
 
         """
-        return gamma((self.eta - 1) / 2) / gamma(self.eta / 2) \
+        return np.exp(gammaln((self.eta - 1) / 2) - gammaln(self.eta / 2)) \
             * (self.eta / np.pi)**.5 * self.const_delta()
 
     def const_mu(self):
@@ -191,7 +191,10 @@ class SkStAC(MultiDensity):
         # (T, k) array
         diff = self.data - self.const_mu()
         # (k, T) array
-        diff_norm = scl.solve(self.const_sigma(), diff.T)
+        try:
+            diff_norm = scl.solve(self.const_sigma(), diff.T)
+        except:
+            print('bad!')
         # (T, ) array
         diff_sandwich = (diff.T * diff_norm).sum(0)
         mvst = MvSt(eta=self.eta, ndim=ndim)
