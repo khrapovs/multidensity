@@ -72,6 +72,10 @@ class MultiDensity(object):
         if data is not None:
             self.data = np.atleast_2d(data)
 
+    def bounds(self):
+        """Parameter bounds."""
+        return None
+
     def const_a(self):
         """Compute a constant.
 
@@ -154,7 +158,10 @@ class MultiDensity(object):
         if theta is None:
             raise ValueError('No parameter given!')
         self.from_theta(theta)
-        return -np.log(self.pdf(self.data)).mean()
+        try:
+            return -np.log(self.pdf(self.data)).mean()
+        except ValueError:
+            return 1e10
 
     def fit_mle(self, theta_start=None, method='Nelder-Mead'):
         """Fit parameters with MLE.
@@ -175,11 +182,12 @@ class MultiDensity(object):
         ndim = self.data.shape[1]
         if theta_start is None:
             theta_start = self.theta_start(ndim)
-        bound_eta = np.ones(1) * 2
-        bound_lam = np.zeros(ndim)
-        bounds = zip(np.concatenate((bound_eta, bound_lam)), 2 * ndim * [None])
+        if self.bounds() is None:
+            bounds = self.ndim * [(None, None)]
+        else:
+            bounds = self.bounds()
         return minimize(self.loglikelihood, theta_start, method=method,
-                        bounds=list(bounds))
+                        bounds=bounds)
 
     def cdf(self, values):
         """CDF function.

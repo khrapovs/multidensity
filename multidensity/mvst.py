@@ -9,8 +9,8 @@ from __future__ import print_function, division
 
 import numpy as np
 
-from scipy.special import gamma
-from scipy.linalg import solve, det
+from scipy.special import gammaln
+import scipy.linalg as scl
 
 from .skstdm import SkStDM
 
@@ -24,7 +24,7 @@ class MvSt(SkStDM):
     Attributes
     ----------
     eta : float
-        Degrees of freedom. :math:`4 < \eta < \infty`
+        Degrees of freedom. :math:`2 < \eta < \infty`
     data : array_like
         Data grid
 
@@ -68,6 +68,17 @@ class MvSt(SkStDM):
 
         """
         self.eta = theta
+
+    def bounds(self):
+        """Parameter bounds.
+
+        Returns
+        -------
+        list of tuples
+            Bounds on each parameter
+
+        """
+        return [(2, None)]
 
     def theta_start(self, ndim=2):
         """Initialize parameter for optimization.
@@ -136,9 +147,12 @@ class MvSt(SkStDM):
         # (T, k) array
         diff = self.data - self.const_mu()
         # (k, T) array
-        diff_norm = solve(self.const_sigma(), diff.T)
+        diff_norm = scl.solve(self.const_sigma(), diff.T)
         # (T, ) array
         diff_sandwich = (diff.T * diff_norm).sum(0)
-        return ((np.pi * self.eta) ** ndim * det(self.const_sigma())) **.5 \
-            * gamma((self.eta + self.ndim) / 2) / gamma(self.eta / 2) \
-            * (1 + diff_sandwich / self.eta) ** (- (self.eta + ndim) / 2)
+        term1 = ((np.pi * self.eta) ** ndim
+            * scl.det(self.const_sigma())) **(-.5)
+        term2 = np.exp(gammaln((self.eta + self.ndim) / 2)
+            - gammaln(self.eta / 2))
+        term3 = (1 + diff_sandwich / self.eta) ** (- (self.eta + ndim) / 2)
+        return term1 * term2 * term3

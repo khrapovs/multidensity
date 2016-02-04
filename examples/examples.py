@@ -26,6 +26,27 @@ def estimate_bivariate_mle_bl():
     print(out)
 
 
+def estimate_bivariate_mle_ac():
+
+    size = 2000
+    eta, lam = 10, [-2, 2]
+    skst = SkStAC(ndim=len(lam), eta=eta, lam=lam)
+    data = skst.rvs(size=size)
+    skst.data = data
+    print(skst.loglikelihood(np.concatenate(([4000], lam))))
+    print(skst.loglikelihood(np.concatenate(([eta], lam))))
+
+#    sns.kdeplot(data, shade=True)
+#    plt.axis('square')
+#    plt.xlim([-2, 2])
+#    plt.ylim([-2, 2])
+#    plt.show()
+
+    model = SkStAC(ndim=len(lam), data=data)
+    out = model.fit_mle(method='L-BFGS-B')
+    print(out)
+
+
 def estimate_bivariate_mle_jr():
     ndim = 2
     size = (10000, ndim)
@@ -222,10 +243,11 @@ def compute_copula_likelihood():
 
 if __name__ == '__main__':
 
+    estimate_bivariate_mle_ac()
 #    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
 #    plot_bidensity()
-    plot_bidensity_simulated()
+#    plot_bidensity_simulated()
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()

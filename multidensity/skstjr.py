@@ -64,9 +64,22 @@ class SkStJR(MultiDensity):
             Density parameters
 
         """
-        params = len(theta) // 2
-        self.eta = np.array(theta[:params])
-        self.lam = np.array(theta[params:])
+        self.eta = np.array(theta[:self.ndim])
+        self.lam = np.array(theta[self.ndim:])
+
+    def bounds(self):
+        """Parameter bounds.
+
+        Returns
+        -------
+        list of tuples
+            Bounds on each parameter
+
+        """
+        bound_eta = 2 * np.ones(self.ndim)
+        bound_lam = np.zeros(self.ndim)
+        return list(zip(np.concatenate((bound_eta, bound_lam)),
+                   2 * self.ndim * [None]))
 
     def theta_start(self, ndim=2):
         """Initialize parameter for optimization.

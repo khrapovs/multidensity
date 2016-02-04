@@ -66,6 +66,20 @@ class SkStBL(MultiDensity):
         self.eta = np.atleast_1d(theta[0])
         self.lam = np.atleast_1d(theta[1:])
 
+    def bounds(self):
+        """Parameter bounds.
+
+        Returns
+        -------
+        list of tuples
+            Bounds on each parameter
+
+        """
+        bound_eta = [2]
+        bound_lam = np.zeros(self.ndim)
+        return list(zip(np.concatenate((bound_eta, bound_lam)),
+                   (1 + self.ndim) * [None]))
+
     def theta_start(self, ndim=2):
         """Initialize parameter for optimization.
 

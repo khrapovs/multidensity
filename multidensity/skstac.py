@@ -79,6 +79,20 @@ class SkStAC(MultiDensity):
         self.eta = np.atleast_1d(theta[0])
         self.lam = np.atleast_1d(theta[1:])
 
+    def bounds(self):
+        """Parameter bounds.
+
+        Returns
+        -------
+        list of tuples
+            Bounds on each parameter
+
+        """
+        bound_eta = [2]
+        bound_lam = self.ndim * [None]
+        return list(zip(np.concatenate((bound_eta, bound_lam)),
+                   (1 + self.ndim) * [None]))
+
     def theta_start(self, ndim=2):
         """Initialize parameter for optimization.
 
@@ -161,8 +175,7 @@ class SkStAC(MultiDensity):
 
         """
         if self.sigma is None:
-            ndim = self.lam.size
-            return (1 - 2 / self.eta) * np.eye(ndim)
+            return (1 - 2 / self.eta) * np.eye(self.ndim)
         else:
             return np.array(self.sigma)
 
