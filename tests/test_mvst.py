@@ -104,15 +104,15 @@ class MvStTestCase(ut.TestCase):
 
         npt.assert_array_almost_equal(arg, quantiles)
 
-    def test_loglikelihood(self):
+    def test_likelihood(self):
         """Test log-likelihood."""
 
         eta = 100
         size = (10, 2)
         data = np.random.normal(size=size)
         mvst = MvSt(ndim=size[1], eta=eta, data=data)
-        logl1 = mvst.loglikelihood(eta)
-        logl2 = mvst.loglikelihood(eta * 2)
+        logl1 = mvst.likelihood(eta)
+        logl2 = mvst.likelihood(eta * 2)
 
         self.assertIsInstance(logl1, float)
         self.assertNotEqual(logl1, logl2)

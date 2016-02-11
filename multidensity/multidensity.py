@@ -36,7 +36,7 @@ class MultiDensity(object):
     -------
     pdf
         Probability density function
-    loglikelihood
+    likelihood
         Log-likelihood function
     fit_mle
         Fit parameters with MLE
@@ -141,7 +141,7 @@ class MultiDensity(object):
         """
         return self.pdf(data=np.array(args))
 
-    def loglikelihood(self, theta=[10., 10, .5, 1.5]):
+    def likelihood(self, theta=[10., 10, .5, 1.5]):
         """Log-likelihood function.
 
         Parameters
@@ -186,7 +186,7 @@ class MultiDensity(object):
             bounds = self.ndim * [(None, None)]
         else:
             bounds = self.bounds()
-        return minimize(self.loglikelihood, theta_start, method=method,
+        return minimize(self.likelihood, theta_start, method=method,
                         bounds=bounds)
 
     def cdf(self, values):

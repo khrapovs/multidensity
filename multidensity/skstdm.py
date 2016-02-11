@@ -47,9 +47,9 @@ class SkStDM(MultiDensity):
         Parameters
         ----------
         eta : float
-            Degrees of freedom. :math:`2 < \eta < \infty`
+            Degrees of freedom. :math:`4 < \eta < \infty`
         lam : array_like
-            Asymmetry. :math:`0 < \lambda < \infty`
+            Asymmetry. :math:`-\infty < \lambda < \infty`
         mu : array_like
             Constant in the mean. None for centered density.
         sigma : array_like
@@ -76,6 +76,20 @@ class SkStDM(MultiDensity):
         """
         self.eta = np.atleast_1d(theta[0])
         self.lam = np.atleast_1d(theta[1:])
+
+    def bounds(self):
+        """Parameter bounds.
+
+        Returns
+        -------
+        list of tuples
+            Bounds on each parameter
+
+        """
+        bound_eta = [4]
+        bound_lam = self.ndim * [None]
+        return list(zip(np.concatenate((bound_eta, bound_lam)),
+                   (1 + self.ndim) * [None]))
 
     def theta_start(self, ndim=2):
         """Initialize parameter for optimization.

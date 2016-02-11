@@ -86,7 +86,7 @@ class SkStBLTestCase(ut.TestCase):
 
         npt.assert_array_almost_equal(arg, quantiles)
 
-    def test_loglikelihood(self):
+    def test_likelihood(self):
         """Test log-likelihood."""
 
         eta, lam = 10, [.5, 1.5, 2]
@@ -94,8 +94,8 @@ class SkStBLTestCase(ut.TestCase):
         size = (10, len(lam))
         data = np.random.normal(size=size)
         skst = SkStBL(ndim=len(lam), eta=eta, lam=lam, data=data)
-        logl1 = skst.loglikelihood(theta)
-        logl2 = skst.loglikelihood(theta * 2)
+        logl1 = skst.likelihood(theta)
+        logl2 = skst.likelihood(theta * 2)
 
         self.assertIsInstance(logl1, float)
         self.assertNotEqual(logl1, logl2)

@@ -33,8 +33,8 @@ def estimate_bivariate_mle_ac():
     skst = SkStAC(ndim=len(lam), eta=eta, lam=lam)
     data = skst.rvs(size=size)
     skst.data = data
-    print(skst.loglikelihood(np.concatenate(([4000], lam))))
-    print(skst.loglikelihood(np.concatenate(([eta], lam))))
+    print(skst.likelihood(np.concatenate(([4000], lam))))
+    print(skst.likelihood(np.concatenate(([eta], lam))))
 
 #    sns.kdeplot(data, shade=True)
 #    plt.axis('square')
