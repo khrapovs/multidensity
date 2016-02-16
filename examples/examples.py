@@ -129,27 +129,27 @@ def plot_bidensity_simulated():
     plt.ylim([-2, 2])
     plt.show()
 
-#    eta, lam = [20, 5], [1.5, .5]
-#    skst = SkStJR(ndim=len(lam), eta=eta, lam=lam)
-#    skst.plot_bidensity()
-#
-#    rvs = skst.rvs(size=size)
-#    sns.kdeplot(rvs, shade=True)
-#    plt.axis('square')
-#    plt.xlim([-2, 2])
-#    plt.ylim([-2, 2])
-#    plt.show()
+    eta, lam = [20, 5], [1.5, .5]
+    skst = SkStJR(ndim=len(lam), eta=eta, lam=lam)
+    skst.plot_bidensity()
 
-#    eta, lam = 20, [1.5, .5]
-#    skst = SkStBL(ndim=len(lam), eta=eta, lam=lam)
-#    skst.plot_bidensity()
-#
-#    rvs = skst.rvs(size=size)
-#    sns.kdeplot(rvs, shade=True)
-#    plt.axis('square')
-#    plt.xlim([-2, 2])
-#    plt.ylim([-2, 2])
-#    plt.show()
+    rvs = skst.rvs(size=size)
+    sns.kdeplot(rvs, shade=True)
+    plt.axis('square')
+    plt.xlim([-2, 2])
+    plt.ylim([-2, 2])
+    plt.show()
+
+    eta, lam = 20, [1.5, .5]
+    skst = SkStBL(ndim=len(lam), eta=eta, lam=lam)
+    skst.plot_bidensity()
+
+    rvs = skst.rvs(size=size)
+    sns.kdeplot(rvs, shade=True)
+    plt.axis('square')
+    plt.xlim([-2, 2])
+    plt.ylim([-2, 2])
+    plt.show()
 
     eta, lam = 20, [1.5, -2]
     skst = SkStDM(ndim=len(lam), eta=eta, lam=lam)
@@ -243,11 +243,11 @@ def compute_copula_likelihood():
 
 if __name__ == '__main__':
 
-    estimate_bivariate_mle_ac()
+#    estimate_bivariate_mle_ac()
 #    estimate_bivariate_mle_bl()
 #    estimate_bivariate_mle_jr()
 #    plot_bidensity()
-#    plot_bidensity_simulated()
+    plot_bidensity_simulated()
 #    compute_cdf()
 #    compute_univ_cdf()
 #    compute_quantile()

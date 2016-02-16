@@ -114,6 +114,16 @@ class SkStJRTestCase(ut.TestCase):
         self.assertNotEqual(logl1, logl2)
         npt.assert_array_equal(skst.data, data)
 
+    def test_rvs(self):
+        """Test simulation."""
+
+        eta, lam = [10, 15, 10], [.5, 1.5, 2]
+        skst = SkStJR(ndim=len(lam), eta=eta, lam=lam)
+        size = 10
+        rvs = skst.rvs(size=size)
+
+        self.assertEqual(rvs.shape, (size, len(lam)))
+
 
 if __name__ == '__main__':
     ut.main()

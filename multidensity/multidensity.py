@@ -95,7 +95,7 @@ class MultiDensity(object):
         float
 
         """
-        return self.lam ** 2 + self.lam ** (-2) - 1 - self.const_a() ** 2
+        return (self.lam ** 2 + self.lam ** (-2) - 1 - self.const_a() ** 2)**.5
 
     def pdf(self, data=None):
         """Probability density function (PDF).

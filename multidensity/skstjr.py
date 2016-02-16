@@ -9,6 +9,7 @@ Multivariate Skewed Student (Jondeau & Rockinger)
 from __future__ import print_function, division
 
 import numpy as np
+import scipy.stats as scs
 
 from scipy.special import gamma
 
@@ -127,3 +128,26 @@ class SkStJR(MultiDensity):
             * self.const_b() / (self.lam + 1. / self.lam) \
             * gamma((self.eta + 1) / 2) / gamma(self.eta / 2) \
             * (1 + kappa ** 2 / (self.eta - 2)) ** (- (self.eta + 1) / 2)
+
+    def rvs(self, size=10):
+        """Simulate random variables.
+
+        Parameters
+        ----------
+        size : int
+            Number of data points
+
+        Returns
+        -------
+        (size, ndim) array
+
+        """
+        mvst_rvs = scs.t.rvs(np.tile(self.eta, (size, 1)))
+
+        prob = np.tile(self.lam**2 / (1 + self.lam**2), (size, 1))
+        bern_rvs = scs.bernoulli.rvs(prob)
+
+        data = np.abs(mvst_rvs) \
+            * (bern_rvs * self.lam - (1 - bern_rvs) / self.lam)
+        return (data - self.const_a()) / self.const_b()
+
