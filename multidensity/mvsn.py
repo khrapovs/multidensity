@@ -13,6 +13,7 @@ import scipy.stats as scs
 import scipy.linalg as scl
 
 from .multidensity import MultiDensity
+from .mvn import MvN
 
 __all__ = ['MvSN']
 
@@ -181,8 +182,13 @@ class MvSN(MultiDensity):
         # (T, ) array
         norm_diff = np.sum((self.data - self.const_mu())
             / self.const_omega() * self.lam, 1)
-        norm_pdf = scs.multivariate_normal.pdf(self.data, mean=self.const_mu(),
-                                               cov=self.const_sigma())
+        if self.lam.ndim == 1:
+            norm_pdf = scs.multivariate_normal.pdf(self.data,
+                                                   mean=self.const_mu(),
+                                                   cov=self.const_sigma())
+        elif self.lam.ndim == 2:
+            cov = np.tile(self.const_sigma(), (self.data.shape[0], 1, 1))
+            norm_pdf = MvN.pdf(self.data, mean=self.const_mu(), cov=cov)
         return 2 * norm_pdf * scs.norm.cdf(norm_diff)
 
     def cdf(self, data=None):

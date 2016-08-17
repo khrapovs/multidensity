@@ -133,6 +133,19 @@ class MvSNTestCase(ut.TestCase):
 
         self.assertEqual(rvs.shape, (size, len(lam)))
 
+    def test_param_array(self):
+        """Test pdf."""
+
+        ndim, nobs = 1, 10
+        size = (nobs, ndim)
+        lam = np.ones((nobs, ndim)) * .5
+        skst = MvSN(ndim=ndim, lam=lam)
+        data = np.random.normal(size=size)
+        pdf = skst.pdf(data)
+
+        self.assertEqual(pdf.ndim, ndim)
+        self.assertEqual(pdf.shape, (size[0], ))
+
 
 if __name__ == '__main__':
     ut.main()
